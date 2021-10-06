@@ -109,7 +109,12 @@ app.post('/', async (request, response) => {
         }
 
         const fetchCreateRequest = payload => {
-            let request = {}
+            let request = {
+                user: {...payload.user},
+                service: {...payload.service},
+                request_timestamp_millis: payload.created_at,
+                state: 'NEW',
+            }
 
             return firestore.collection('requests').add(request);
         }
@@ -121,13 +126,13 @@ app.post('/', async (request, response) => {
                     phoneNumber: args.phoneNumber,
                 })
                 let session = await fetchGetSessionIfLive(args.sessionId);
-                let user = await fetchUser(addPlusDialingCodeToPhoneNumber(args.phoneNumber));
-                if (user == null || user == undefined) {
+                let user = await fetchUser(args.phoneNumber);
+                if (user == null && user == undefined) {
                     await fetchUpdateSession({ user: { id: null, name: null, phoneNumber: args.phoneNumber, location: null } })
                     menu.con(`Hello, your number ${args.phoneNumber} is not registered on the platform. Enter 0 to register. \n0: Registration`);
                 } else {
-                    await fetchUpdateSession({ user_id: user.id })
-                    menu.con(`Hello ${capitalizeFirstLetterOfAllWords(user.name)}, welcome to the AEAS menu. Select a option: \n1: Extenstion Services,\n2: Advisory Service,\n3: Search,\n4: My Account`);
+                    await fetchUpdateSession({ user: { id: user.id, name: user.name, phoneNumber: user.phoneNumber, location: `${user.district} District,${user.village} Village` } })
+                    menu.con(`Hello ${capitalizeFirstLetterOfAllWords(user.name)}, welcome to the FarmSoko menu. Select a option: \n1: Extenstion Services,\n2: Advisory Service,\n3: Search,\n4: My Account`);
                 }
             },
             next: {
@@ -164,15 +169,15 @@ app.post('/', async (request, response) => {
             },
             next: {
                 1: async () => {
-                    await fetchUpdateSession(args.sessionId, { service: { request: 'Soil Testing' } })
+                    await fetchUpdateSession({ service: { request: 'Soil Testing' } })
                     return 'extensionServices.confirm';
                 },
                 2: async () => {
-                    await fetchUpdateSession(args.sessionId, { service: { request: 'Ploughing' } })
+                    await fetchUpdateSession({ service: { request: 'Ploughing' } })
                     return 'extensionServices.confirm'
                 },
                 3: async () => {
-                    await fetchUpdateSession(args.sessionId, { service: { request: 'Ridging' } })
+                    await fetchUpdateSession({ service: { request: 'Ridging' } })
                     return 'extensionServices.confirm'
                 },
                 4: async () => {
@@ -192,7 +197,12 @@ app.post('/', async (request, response) => {
                 menu.con(`EXTENSION SERVICE REQUEST\nName: ${session.user.name}\nRequest: ${session.service.request}\nEnter your PIN to confirm`);
             },
             next: {
-                '*\\w+': async () => { },
+                '*\\d+': async () => { 
+                    // TODO verify pin
+                    let session = await fetchGetSessionIfLive(args.sessionId);
+                    fetchCreateRequest(session)
+                    return 'extensionServices.complete';
+                },
             },
         });
 
@@ -337,7 +347,7 @@ app.post('/', async (request, response) => {
         menu.state('registration.farm', {
             run: async () => {
                 let session = await fetchGetSessionIfLive(args.sessionId)
-                menu.con(`FARMER REGISTRATION\nSub-County: ${session.service.form_data.sub_county}\nVilage: ${session.service.form_data.village}\nPlease enter your farm eg (Maize, Bananas, Cattle )`)  
+                menu.con(`FARMER REGISTRATION\nSub-County: ${session.service.form_data.sub_county}\nVilage: ${session.service.form_data.village}\nPlease enter your farm eg (Maize, Bananas, Cattle )`)
             },
             next: {
                 '*\\w+': async () => {
