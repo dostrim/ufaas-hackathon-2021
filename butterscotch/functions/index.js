@@ -105,6 +105,255 @@ app.post('/', async (request, response) => {
             return firestore.collection('requests').add(request);
         }
 
+        menu.startState({
+            run: async () => {
+                await fetchCreateSession({
+                    session_id: args.sessionId,
+                    phoneNumber: args.phoneNumber,
+                })
+                let session = await fetchGetSessionIfLive(args.sessionId);
+                let user = await fetchUser(addPlusDialingCodeToPhoneNumber(args.phoneNumber));
+                if (user == null || user == undefined) {
+                    await fetchUpdateSession(session.id, { user_id: null })
+                    menu.con(`Hello, your number ${args.phoneNumber} is not registered on the platform. Enter 0 to register`);
+                }
+                await fetchUpdateSession(session.id, { user_id: user.id })
+                menu.con(`Hello ${capitalizeFirstLetterOfAllWords(user.name)}, welcome to the AEAS menu. Select a option: \n1: Extenstion Services,\n2: Advisory Service,\n3: Search,\n4: My Account`);
+            },
+            next: {
+                0: async () => {
+                    await fetchUpdateSession(args.sessionId, { service: { type: 'registration' } })
+                    return 'registration';
+                },
+                1: async () => {
+                    await fetchUpdateSession(args.sessionId, { service: { type: 'extension' } })
+                    return 'extensionServices'
+                },
+                2: async () => {
+                    await fetchUpdateSession(args.sessionId, { service: { type: 'advisory' } })
+                    return 'advisoryServices'
+                },
+                3: async () => {
+                    await fetchUpdateSession(args.sessionId, { service: { type: 'search' } })
+                    return 'search'
+                },
+                4: async () => {
+                    await fetchUpdateSession(args.sessionId, { service: 'account' })
+                    return 'account';
+                },
+            },
+        });
+
+        /**
+         ************************************ Extenstion Services ***********************************
+         */
+        menu.state('extensionServices', {
+            run: async () => {
+                let session = await fetchGetSessionIfLive(args.sessionId)
+                menu.con('Select a service.\n1: Soil Testing\n2: Ploughing\n3: Ridging\n4: Harrowing\n5: Planting')
+            },
+            next: {
+                1: async () => {
+                    await fetchUpdateSession(args.sessionId, { service: { extension: 'Soil Testing' } })
+                    return 'Soil Testing';
+                },
+                2: async () => {
+                    return 'Ploughing'
+                },
+                3: async () => {
+
+                    return 'Ridging'
+                },
+                4: () => {
+
+                    return 'Harrowing'
+                },
+                5: () => {
+
+                    return 'Planting'
+                },
+            },
+        });
+
+        menu.state('extensionServices.confirm', {
+            run: async () => { },
+            next: {},
+        });
+
+        menu.state('extensionServices.complete', {
+            run: async () => { },
+            next: {
+
+            },
+        });
+
+        /**
+         ************************************ Advisory Services ***********************************
+         */
+        menu.state('advisoryServices', {
+            run: async () => {
+                let session = await fetchGetSessionIfLive(args.sessionId)
+                menu.con('Select a service.\n1: Beans\n2: Cocoa\n3: Coffee\n4: Rice\n5: Citrus\n6: Dairy Cattle\n7: Poultry\n8: Fish Feeds\n9: Apiary\n10: Pigs')
+            },
+            next: {
+                1: async () => {
+                    await fetchUpdateSession(args.sessionId, { service: { ser: menu.val } });
+                },
+            },
+        });
+
+        menu.state('advisoryServices.confirm', {
+            run: async () => { },
+            next: {},
+        });
+
+        menu.state('advisoryServices.complete', {
+            run: async () => { },
+            next: {
+
+            },
+        });
+
+        /**
+         ************************************ Search for Service ***********************************
+         */
+        menu.state('search', {
+            run: async () => {
+                let session = await fetchGetSessionIfLive(args.sessionId)
+                menu.con(``);
+            },
+            next: {
+                '*\\w+': async () => { },
+            },
+        });
+
+        menu.state('search.results', {
+            run: async () => {
+                let session = await fetchGetSessionIfLive(args.sessionId)
+                menu.con(``);
+            },
+            next: {},
+        });
+
+        menu.state('search.confirm', {
+            run: async () => {
+                menu.end(``);
+            },
+            next: {},
+        });
+
+        /**
+         * ************************************ Account ***********************************
+         * */
+        menu.state('account', {});
+
+        /**
+         * ************************************ Registration ***********************************
+         * */
+        menu.state('registration', {
+            run: async () => {
+                let session = await fetchGetSessionIfLive(args.sessionId)
+                menu.con(`FARMER REGISTRATION\nPhone: ${session.phoneNumber} \nPlease enter your name`)
+            },
+            next: {
+                '*\\w+': async () => {
+                    await fetchUpdateSession(args.sessionId, { registration: { name: menu.val, phoneNumber: args.phoneNumber } });
+                    return 'registration.district';
+                },
+            },
+        });
+
+        menu.state('registration.district', {
+            run: async () => {
+                let session = await fetchGetSessionIfLive(args.sessionId)
+                menu.con(`FARMER REGISTRATION\nPhone: ${session.registration.phoneNumber}\nName: ${session.registration.name}\nPlease enter district name`)
+            },
+            next: {
+                '*\\w+': async () => {
+                    await fetchUpdateSession(args.sessionId, { registration: { district: menu.val } });
+                    return 'registration.county';
+                },
+            },
+        });
+
+        menu.state('registration.county', {
+            run: async () => {
+                let session = await fetchGetSessionIfLive(args.sessionId)
+                menu.con(`FARMER REGISTRATION\nName: ${session.registration.name}\nDistrict: ${session.registration.district}\nPlease enter your county name`)
+            },
+            next: {
+                '*\\w+': async () => {
+                    await fetchUpdateSession(args.sessionId, { registration: { county: menu.val } });
+                    return 'registration.subcounty';
+                },
+            },
+        });
+
+        menu.state('registration.subcounty', {
+            run: async () => {
+                let session = await fetchGetSessionIfLive(args.sessionId)
+                menu.con(`FARMER REGISTRATION\nDistric: ${session.registration.district}\nCounty: ${session.registration.county}\nPlease enter your sub-county name`)
+            },
+            next: {
+                '*\\w+': async () => {
+                    await fetchUpdateSession(args.sessionId, { registration: { sub_county: menu.val } });
+                    return 'registration.village';
+                },
+            },
+        });
+
+        menu.state('registration.village', {
+            run: async () => {
+                let session = await fetchGetSessionIfLive(args.sessionId)
+                menu.con(`FARMER REGISTRATION\nCounty: ${session.registration.county}\nSub-County: ${session.registration.sub_county}\nPlease enter your village name`)
+            },
+            next: {
+                '*\\w+': async () => {
+                    await fetchUpdateSession(args.sessionId, { registration: { village: menu.val } });
+                    return 'registration.pin';
+                },
+            },
+        });
+
+        menu.state('registration.pin', {
+            run: async () => {
+                let session = await fetchGetSessionIfLive(args.sessionId)
+                menu.con(`FARMER REGISTRATION\nPlease enter your secret 4 digit PIN`)
+            },
+            next: {
+                '*\\d+': async () => {
+                    await fetchUpdateSession(args.sessionId, { registration: { pin: menu.val } });
+                    return 'registration.confirm_pin';
+                },
+            },
+        });
+
+        menu.state('registration.confirm_pin', {
+            run: async () => {
+                let session = await fetchGetSessionIfLive(args.sessionId)
+                menu.con(`FARMER REGISTRATION\nPlease enter your secret 4 digit PIN to confirm`)
+            },
+            next: {
+                '*\\d+': async () => {
+                    await fetchUpdateSession(args.sessionId, { registration: { pin: menu.val } });
+                    return 'registration.complete';
+                },
+            },
+        });
+
+        menu.state('registration.complete', {
+            run: async () => {
+                let session = await fetchGetSessionIfLive(args.sessionId)
+                menu.end(`FARMER REGISTRATION COMPLETE
+                \nPhone: ${session.registration.phoneNumber},
+                \nName: ${session.registration.name}
+                \nDistrict: ${session.registration.district},
+                \nCounty: ${session.registration.county},
+                \nSub-County: ${session.registration.sub_county},
+                \nVillage: ${session.registration.village}`);
+            },
+        });
+
         response.send(await menu.run(args));
 
     } catch (error) {
