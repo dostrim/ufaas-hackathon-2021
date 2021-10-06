@@ -17,6 +17,8 @@ const cors = require('cors');
 const UssdMenu = require('ussd-menu-builder');
 const bodyParser = require('body-parser');
 const dot = require('dot-object');
+const { google } = require('googleapis');
+const sheets = google.sheets({ version: 'v4' });
 const { addPlusDialingCodeToPhoneNumber, capitalizeFirstLetterOfAllWords } = require('./utils');
 
 
@@ -119,7 +121,7 @@ app.post('/', async (request, response) => {
             return firestore.collection('requests').add(request);
         }
 
-        const fetchQuery = query => {}
+        const fetchQuery = query => { }
 
         menu.startState({
             run: async () => {
@@ -305,7 +307,7 @@ app.post('/', async (request, response) => {
                 menu.con(`SEARCH\nEnter search query.`);
             },
             next: {
-                '*\\w+': async () => { 
+                '*\\w+': async () => {
                     let search_results = await fetchQuery(menu.val)
                     await fetchUpdateSession({ service: { request: menu.val } })
                     return 'search.results';
@@ -473,10 +475,26 @@ exports.onCreateNewFarmer = functions.firestore.document('/users/user_id').onCre
 });
 
 exports.onCreateNewRequest = functions.firestore.document('/requests/request_id').onCreate(async (snap, context) => {
-
-    // TODO write to gsheets
-    
-
+    // TODO improvement required
+    sheets.spreadsheets.values.append({
+        spreadsheetId: serviceAccount.gsheet_id,
+        range: "requests",
+        auth: new google.auth.JWT(
+            serviceAccount.client_email,
+            null,
+            serviceAccount.private_key,
+            ['https://www.googleapis.com/auth/spreadsheets'],
+        ),
+        key: serviceAccount.api_key,
+        valueInputOption: 'RAW',
+        resource: { values: [] },
+    }, (err, result) => {
+        if (err) {
+            throw err;
+        } else {
+            console.log('Updated sheet: ' + result.data.updates.updatedRange);
+        }
+    })
 });
 
 
