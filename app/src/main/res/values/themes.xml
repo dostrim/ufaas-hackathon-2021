@@ -16,4 +16,20 @@
         <item name="android:textColor">@color/black</item>
         <item name="fontFamily">@font/abhaya_libre</item>
     </style>
+
+    <style name="Theme.CSADataCenter.SplashScreen">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="fontFamily">@font/abhaya_libre</item>
+        <item name="android:windowBackground">@color/purple_500</item>
+    </style>
+
+    <style name="Theme.CSADataCenter.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/white</item>
+        <item name="fontFamily">@font/abhaya_libre</item>
+    </style>
+
 </resources>

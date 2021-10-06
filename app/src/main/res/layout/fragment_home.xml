@@ -31,6 +31,7 @@
                     app:drawableStartCompat="@drawable/ic_baseline_place_24" />
 
                 <TextView
+                    android:id="@+id/location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="8dp"
@@ -63,6 +64,7 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <TextView
+                android:id="@+id/pests_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
@@ -77,6 +79,7 @@
                 tools:listitem="@layout/single_attack_layout" />
 
             <TextView
+                android:id="@+id/diseases_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"

@@ -12,7 +12,7 @@ import com.afrosoft.csadatacenter.models.FarmerInterest
 
 class FarmerInterestsAdapter(val context: Context, val list: MutableList<Interest>, val func : (Interest?)->Unit): RecyclerView.Adapter<FarmerInterestsAdapter.FarmerInterestHolder>() {
 
-    var selectedInterest : Interest? = null
+    var selectedInterest : Interest? = list[0]
 
     inner class FarmerInterestHolder(val binding: SingleInterestLayoutBinding): RecyclerView.ViewHolder(binding.root) {
         fun setData(interest: Interest) {

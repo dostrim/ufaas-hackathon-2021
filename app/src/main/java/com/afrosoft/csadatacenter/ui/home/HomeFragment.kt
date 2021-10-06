@@ -38,7 +38,8 @@ class HomeFragment : Fragment() {
             Interest("Rice"),
             Interest("Maize")
         )){
-
+            binding.pestsTitle.text = "Likely Pest attacks for ${it?.name}"
+            binding.diseasesTitle.text = "Likely Disease attacks for ${it?.name}"
         }
 
         binding.diseaseAttacksRv.adapter = AttacksAdapter(requireActivity(), mutableListOf(
