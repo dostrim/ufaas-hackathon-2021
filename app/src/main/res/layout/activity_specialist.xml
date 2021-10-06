@@ -22,7 +22,7 @@
                 app:riv_oval="true"
                 android:layout_marginBottom="10dp"
                 android:layout_height="140dp"
-                android:src="@android:color/black"/>
+                android:src="@drawable/profile_avatar"/>
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -185,6 +185,7 @@
                 android:layout_height="wrap_content"
                 app:icon="@drawable/icons8_video_call_96px"
                 android:text="Video Call"
+                app:iconGravity="textStart"
                 android:layout_margin="8dp"
                 android:layout_gravity="center"
                 android:gravity="center"/>

@@ -8,17 +8,17 @@
 
     <item
         android:id="@+id/navigation_forum"
-        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:icon="@drawable/icons8_myspace_100"
         android:title="@string/title_forum" />
 
     <item
         android:id="@+id/navigation_market"
-        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:icon="@drawable/icons8_market_trends_100"
         android:title="@string/title_market" />
 
     <item
         android:id="@+id/navigation_chat"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/icons8_chat_100"
         android:title="@string/title_chat" />
 
 </menu>

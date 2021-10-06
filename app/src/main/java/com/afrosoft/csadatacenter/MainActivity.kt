@@ -8,6 +8,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.afrosoft.csadatacenter.databinding.ActivityMainBinding
+import com.afrosoft.csadatacenter.ui.AppPreferences
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,6 +19,8 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        AppPreferences(this).updateFirstTimeRecord(false)
 
         val navView: BottomNavigationView = binding.navView
 

@@ -49,14 +49,14 @@ class ChatFragment : Fragment() {
 
     private fun showExtensionWorkers() {
         binding.buttonExtensionWorkers.setBackgroundResource(R.drawable.black_filled_bg)
-        binding.buttonExtensionWorkers.setTextColor(Color.WHITE)
+        binding.buttonExtensionWorkers.setTextColor(Color.parseColor("#FF388e3c"))
 
         binding.buttonAgronomists.setBackgroundResource(R.drawable.black_border_bg)
         binding.buttonAgronomists.setTextColor(Color.BLACK)
     }
     private fun showAgronomists() {
         binding.buttonAgronomists.setBackgroundResource(R.drawable.black_filled_bg)
-        binding.buttonAgronomists.setTextColor(Color.WHITE)
+        binding.buttonAgronomists.setTextColor(Color.parseColor("#FF388e3c"))
 
         binding.buttonExtensionWorkers.setBackgroundResource(R.drawable.black_border_bg)
         binding.buttonExtensionWorkers.setTextColor(Color.BLACK)

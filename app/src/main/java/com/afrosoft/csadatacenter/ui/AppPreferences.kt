@@ -7,6 +7,20 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 class AppPreferences(val context: Context) {
+    val preferences = context.getSharedPreferences("AgriAid",MODE_PRIVATE)
+    val editor = preferences.edit()
+
+    val firstTime = "firstTime"
+
+    fun updateFirstTimeRecord(boolean: Boolean){
+        editor.putBoolean(firstTime,boolean).apply()
+    }
+
+    fun isFirstTime(): Boolean{
+        return preferences.getBoolean(firstTime,true)
+    }
+
+    /*save User selections*/
 
     fun getFarmerInterests(): MutableList<Interest> {
         val list: MutableList<Interest> =
@@ -18,10 +32,9 @@ class AppPreferences(val context: Context) {
         editor.putString("interests", Gson().toJson(interests)).apply()
     }
 
-    val preferences = context.getSharedPreferences("AgriAid",MODE_PRIVATE)
-    val editor = preferences.edit()
 
 
+    /*save all plants for limit consistent server requests*/
     val allPlants = "plants"
 
     fun saveAllPlantsData(response: String?) {

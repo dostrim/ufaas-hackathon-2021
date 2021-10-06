@@ -22,7 +22,7 @@
             android:textColor="@android:color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Select Your Language"/>
+            android:text="Select Your Preferred Language"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"

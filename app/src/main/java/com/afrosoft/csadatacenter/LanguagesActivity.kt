@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.afrosoft.csadatacenter.databinding.ActivityLanguagesBinding
 import com.afrosoft.csadatacenter.databinding.SingleLanguageBinding
+import com.afrosoft.csadatacenter.ui.access.LoginActivity
 
 class LanguagesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLanguagesBinding
@@ -39,7 +40,7 @@ class LanguageAdapter(val context: AppCompatActivity, val list: MutableList<Lang
             binding.imgFlag.setImageResource(obj.flag)
             binding.txtFlag.text = obj.name
             binding.root.setOnClickListener {
-                context.startActivity(Intent(context,InterestsActivity::class.java))
+                context.startActivity(Intent(context,LoginActivity::class.java))
                 context.finish()
             }
         }
