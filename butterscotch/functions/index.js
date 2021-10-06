@@ -15,6 +15,7 @@ const express = require('express');
 const cors = require('cors');
 const UssdMenu = require('ussd-menu-builder');
 const bodyParser = require('body-parser');
+const dot = require('dot-object');
 const { addPlusDialingCodeToPhoneNumber, capitalizeFirstLetterOfAllWords } = require('./utils');
 
 
@@ -46,10 +47,15 @@ app.post('/', async (request, response) => {
 
         const fetchCreateSession = payload => {
             let session = {
-                session_id: payload.session_id,
+                ussd_session_id: payload.ussd_session_id,
                 created_at: Date.now(),
                 created_on_backend_at: firebase.firestore.FieldValue.serverTimestamp(),
-                user_id: '',
+                user: {
+                    id: '',
+                    name: '',
+                    phoneNumber: '',
+                    location: '',
+                },
                 state: {
                 },
             }
@@ -58,16 +64,19 @@ app.post('/', async (request, response) => {
             return firestore.collection('sessions').add(session);
         }
 
-        const fetchUpdateSession = (id, payload) => {
-            let updates = payload;
+        const fetchUpdateSession = async payload => {
+            let updates = dot.dot(payload);
+
+            let session = await fetchGetSessionIfLive(args.sessionId)
+
             return firestore.collection('sessions')
-                .doc(id)
+                .doc(session.id)
                 .update(updates, { merge: true });
         }
 
-        const fetchGetSessionIfLive = session_id => {
+        const fetchGetSessionIfLive = ussd_session_id => {
             let session;
-            return firestore.collection('sessions').where('session_id', '==', session_id).get()
+            return firestore.collection('sessions').where('ussd_session_id', '==', ussd_session_id).get()
                 .then(snapShot => {
                     if (!snapShot.empty) {
                         snapShot.forEach(doc => {
@@ -79,7 +88,7 @@ app.post('/', async (request, response) => {
         }
 
         const fetchCreateUser = payload => {
-            let user = {}
+            let user = { ...payload }
 
             return firestore.collection('users').add(user);
         }
@@ -108,80 +117,90 @@ app.post('/', async (request, response) => {
         menu.startState({
             run: async () => {
                 await fetchCreateSession({
-                    session_id: args.sessionId,
+                    ussd_session_id: args.sessionId,
                     phoneNumber: args.phoneNumber,
                 })
                 let session = await fetchGetSessionIfLive(args.sessionId);
                 let user = await fetchUser(addPlusDialingCodeToPhoneNumber(args.phoneNumber));
                 if (user == null || user == undefined) {
-                    await fetchUpdateSession(session.id, { user_id: null })
-                    menu.con(`Hello, your number ${args.phoneNumber} is not registered on the platform. Enter 0 to register`);
+                    await fetchUpdateSession({ user: { id: null, name: null, phoneNumber: args.phoneNumber, location: null } })
+                    menu.con(`Hello, your number ${args.phoneNumber} is not registered on the platform. Enter 0 to register. \n0: Registration`);
+                } else {
+                    await fetchUpdateSession({ user_id: user.id })
+                    menu.con(`Hello ${capitalizeFirstLetterOfAllWords(user.name)}, welcome to the AEAS menu. Select a option: \n1: Extenstion Services,\n2: Advisory Service,\n3: Search,\n4: My Account`);
                 }
-                await fetchUpdateSession(session.id, { user_id: user.id })
-                menu.con(`Hello ${capitalizeFirstLetterOfAllWords(user.name)}, welcome to the AEAS menu. Select a option: \n1: Extenstion Services,\n2: Advisory Service,\n3: Search,\n4: My Account`);
             },
             next: {
                 0: async () => {
-                    await fetchUpdateSession(args.sessionId, { service: { type: 'registration' } })
+                    await fetchUpdateSession({ service: { type: 'registration' } })
                     return 'registration';
                 },
                 1: async () => {
-                    await fetchUpdateSession(args.sessionId, { service: { type: 'extension' } })
+                    await fetchUpdateSession({ service: { type: 'extension' } })
                     return 'extensionServices'
                 },
                 2: async () => {
-                    await fetchUpdateSession(args.sessionId, { service: { type: 'advisory' } })
+                    await fetchUpdateSession({ service: { type: 'advisory' } })
                     return 'advisoryServices'
                 },
                 3: async () => {
-                    await fetchUpdateSession(args.sessionId, { service: { type: 'search' } })
+                    await fetchUpdateSession({ service: { type: 'search' } })
                     return 'search'
                 },
                 4: async () => {
-                    await fetchUpdateSession(args.sessionId, { service: 'account' })
+                    await fetchUpdateSession({ service: 'account' })
                     return 'account';
                 },
             },
         });
 
         /**
-         ************************************ Extenstion Services ***********************************
+         ************************************ Extension Services ***********************************
          */
         menu.state('extensionServices', {
             run: async () => {
-                let session = await fetchGetSessionIfLive(args.sessionId)
-                menu.con('Select a service.\n1: Soil Testing\n2: Ploughing\n3: Ridging\n4: Harrowing\n5: Planting')
+                let session = await fetchGetSessionIfLive(args.sessionId);
+                menu.con('EXTENSION SERVICE REQUEST\nSelect a service.\n1: Soil Testing\n2: Ploughing\n3: Ridging\n4: Harrowing\n5: Planting')
             },
             next: {
                 1: async () => {
-                    await fetchUpdateSession(args.sessionId, { service: { extension: 'Soil Testing' } })
-                    return 'Soil Testing';
+                    await fetchUpdateSession(args.sessionId, { service: { request: 'Soil Testing' } })
+                    return 'extensionServices.confirm';
                 },
                 2: async () => {
-                    return 'Ploughing'
+                    await fetchUpdateSession(args.sessionId, { service: { request: 'Ploughing' } })
+                    return 'extensionServices.confirm'
                 },
                 3: async () => {
-
-                    return 'Ridging'
+                    await fetchUpdateSession(args.sessionId, { service: { request: 'Ridging' } })
+                    return 'extensionServices.confirm'
                 },
-                4: () => {
-
-                    return 'Harrowing'
+                4: async () => {
+                    await fetchUpdateSession(args.sessionId, { service: { request: 'Harrowing' } })
+                    return 'extensionServices.confirm'
                 },
-                5: () => {
-
-                    return 'Planting'
+                5: async () => {
+                    await fetchUpdateSession(args.sessionId, { service: { request: 'Planting' } })
+                    return 'extensionServices.confirm'
                 },
             },
         });
 
         menu.state('extensionServices.confirm', {
-            run: async () => { },
-            next: {},
+            run: async () => {
+                let session = await fetchGetSessionIfLive(args.sessionId);
+                menu.con(`EXTENSION SERVICE REQUEST\nName: ${session.user.name}\nRequest: ${session.service.request}\nEnter your PIN to confirm`);
+            },
+            next: {
+                '*\\w+': async () => { },
+            },
         });
 
         menu.state('extensionServices.complete', {
-            run: async () => { },
+            run: async () => {
+                let session = await fetchGetSessionIfLive(args.sessionId);
+                menu.end(`EXTENSION SERVICE REQUEST COMPLETED\nYour request has been received and will be processed.`);
+            },
             next: {
 
             },
@@ -253,11 +272,11 @@ app.post('/', async (request, response) => {
         menu.state('registration', {
             run: async () => {
                 let session = await fetchGetSessionIfLive(args.sessionId)
-                menu.con(`FARMER REGISTRATION\nPhone: ${session.phoneNumber} \nPlease enter your name`)
+                menu.con(`FARMER REGISTRATION\nPhone: ${args.phoneNumber} \nPlease enter your name`)
             },
             next: {
                 '*\\w+': async () => {
-                    await fetchUpdateSession(args.sessionId, { registration: { name: menu.val, phoneNumber: args.phoneNumber } });
+                    await fetchUpdateSession({ service: { request: 'farmer_registration', form_data: { name: menu.val, phoneNumber: args.phoneNumber } } });
                     return 'registration.district';
                 },
             },
@@ -266,11 +285,11 @@ app.post('/', async (request, response) => {
         menu.state('registration.district', {
             run: async () => {
                 let session = await fetchGetSessionIfLive(args.sessionId)
-                menu.con(`FARMER REGISTRATION\nPhone: ${session.registration.phoneNumber}\nName: ${session.registration.name}\nPlease enter district name`)
+                menu.con(`FARMER REGISTRATION\nPhone: ${session.service.form_data.phoneNumber}\nName: ${session.service.form_data.name}\nPlease enter district name`)
             },
             next: {
                 '*\\w+': async () => {
-                    await fetchUpdateSession(args.sessionId, { registration: { district: menu.val } });
+                    await fetchUpdateSession({ service: { form_data: { district: menu.val } } });
                     return 'registration.county';
                 },
             },
@@ -279,11 +298,11 @@ app.post('/', async (request, response) => {
         menu.state('registration.county', {
             run: async () => {
                 let session = await fetchGetSessionIfLive(args.sessionId)
-                menu.con(`FARMER REGISTRATION\nName: ${session.registration.name}\nDistrict: ${session.registration.district}\nPlease enter your county name`)
+                menu.con(`FARMER REGISTRATION\nName: ${session.service.form_data.name}\nDistrict: ${session.service.form_data.district}\nPlease enter your county name`)
             },
             next: {
                 '*\\w+': async () => {
-                    await fetchUpdateSession(args.sessionId, { registration: { county: menu.val } });
+                    await fetchUpdateSession({ service: { form_data: { county: menu.val } } });
                     return 'registration.subcounty';
                 },
             },
@@ -292,11 +311,11 @@ app.post('/', async (request, response) => {
         menu.state('registration.subcounty', {
             run: async () => {
                 let session = await fetchGetSessionIfLive(args.sessionId)
-                menu.con(`FARMER REGISTRATION\nDistric: ${session.registration.district}\nCounty: ${session.registration.county}\nPlease enter your sub-county name`)
+                menu.con(`FARMER REGISTRATION\nDistric: ${session.service.form_data.district}\nCounty: ${session.service.form_data.county}\nPlease enter your sub-county name`)
             },
             next: {
                 '*\\w+': async () => {
-                    await fetchUpdateSession(args.sessionId, { registration: { sub_county: menu.val } });
+                    await fetchUpdateSession({ service: { form_data: { sub_county: menu.val } } });
                     return 'registration.village';
                 },
             },
@@ -305,15 +324,28 @@ app.post('/', async (request, response) => {
         menu.state('registration.village', {
             run: async () => {
                 let session = await fetchGetSessionIfLive(args.sessionId)
-                menu.con(`FARMER REGISTRATION\nCounty: ${session.registration.county}\nSub-County: ${session.registration.sub_county}\nPlease enter your village name`)
+                menu.con(`FARMER REGISTRATION\nCounty: ${session.service.form_data.county}\nSub-County: ${session.service.form_data.sub_county}\nPlease enter your village name`)
             },
             next: {
                 '*\\w+': async () => {
-                    await fetchUpdateSession(args.sessionId, { registration: { village: menu.val } });
-                    return 'registration.pin';
+                    await fetchUpdateSession({ service: { form_data: { village: menu.val } } });
+                    return 'registration.farm';
                 },
             },
         });
+
+        menu.state('registration.farm', {
+            run: async () => {
+                let session = await fetchGetSessionIfLive(args.sessionId)
+                menu.con(`FARMER REGISTRATION\nSub-County: ${session.service.form_data.sub_county}\nVilage: ${session.service.form_data.village}\nPlease enter your farm eg (Maize, Bananas, Cattle )`)  
+            },
+            next: {
+                '*\\w+': async () => {
+                    await fetchUpdateSession({ service: { form_data: { farm: menu.val } } });
+                    return 'registration.pin';
+                },
+            },
+        })
 
         menu.state('registration.pin', {
             run: async () => {
@@ -322,8 +354,8 @@ app.post('/', async (request, response) => {
             },
             next: {
                 '*\\d+': async () => {
-                    await fetchUpdateSession(args.sessionId, { registration: { pin: menu.val } });
-                    return 'registration.confirm_pin';
+                    await fetchUpdateSession({ service: { form_data: { pin: menu.val } } });
+                    return 'registration.complete';
                 },
             },
         });
@@ -335,7 +367,7 @@ app.post('/', async (request, response) => {
             },
             next: {
                 '*\\d+': async () => {
-                    await fetchUpdateSession(args.sessionId, { registration: { pin: menu.val } });
+                    await fetchUpdateSession({ service: { form_data: { confirm_pin: menu.val } } });
                     return 'registration.complete';
                 },
             },
@@ -344,13 +376,16 @@ app.post('/', async (request, response) => {
         menu.state('registration.complete', {
             run: async () => {
                 let session = await fetchGetSessionIfLive(args.sessionId)
+                await fetchCreateUser(session.service.form_data);
+
                 menu.end(`FARMER REGISTRATION COMPLETE
-                \nPhone: ${session.registration.phoneNumber},
-                \nName: ${session.registration.name}
-                \nDistrict: ${session.registration.district},
-                \nCounty: ${session.registration.county},
-                \nSub-County: ${session.registration.sub_county},
-                \nVillage: ${session.registration.village}`);
+                \nPhone: ${session.service.form_data.phoneNumber},
+                \nName: ${session.service.form_data.name}
+                \nDistrict: ${session.service.form_data.district},
+                \nCounty: ${session.service.form_data.county},
+                \nSub-County: ${session.service.form_data.sub_county},
+                \nVillage: ${session.service.form_data.village}
+                \nFarm: ${session.service.form_data.farm}`);
             },
         });
 

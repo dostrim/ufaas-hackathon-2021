@@ -4,6 +4,13 @@ module.exports = {
     es6: true,
     node: true,
   },
+  parserOptions: {
+    // Required for certain syntax usages
+    "ecmaVersion": 2018,
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+    },
+  },
   extends: [
     "eslint:recommended",
     "google",
