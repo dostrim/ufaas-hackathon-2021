@@ -223,6 +223,14 @@
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
+
+                        <ProgressBar
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:id="@+id/pests_pb"
+                            android:visibility="gone"
+                            android:layout_gravity="center"/>
+
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/pest_attacks_rv"
                             android:layout_width="match_parent"
@@ -242,6 +250,12 @@
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
+                        <ProgressBar
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:visibility="gone"
+                            android:id="@+id/disease_pb"
+                            android:layout_gravity="center"/>
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/disease_attacks_rv"
                             android:layout_width="match_parent"
