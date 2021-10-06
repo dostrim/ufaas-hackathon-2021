@@ -1,11 +1,13 @@
 package com.afrosoft.csadatacenter.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.afrosoft.csadatacenter.InterestsActivity
 import com.afrosoft.csadatacenter.databinding.FragmentHomeBinding
 import com.afrosoft.csadatacenter.models.Attack
 import com.afrosoft.csadatacenter.models.Interest
@@ -50,6 +52,10 @@ class HomeFragment : Fragment() {
         binding.practicesRv.adapter = PracticeAdapter(requireActivity(), mutableListOf(
             Practice(),Practice()
         ))
+
+        binding.addInterest.setOnClickListener {
+            startActivity(Intent(requireActivity(),InterestsActivity::class.java))
+        }
     }
 
     override fun onDestroyView() {

@@ -32,4 +32,9 @@
         <item name="fontFamily">@font/abhaya_libre</item>
     </style>
 
+    <style name="Theme.CSADataCenter.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.CSADataCenter.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
 </resources>

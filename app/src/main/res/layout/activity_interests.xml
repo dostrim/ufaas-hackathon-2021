@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -22,7 +22,7 @@
             android:textColor="@android:color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Select Your Interest"/>
+            android:text="Click to Select Your Interest"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
@@ -30,18 +30,25 @@
             android:id="@+id/rv_interests"
             android:orientation="vertical"
             app:spanCount="2"
+            android:layout_marginBottom="60dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             tools:listitem="@layout/single_interest"/>
 
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/buttonContinue"
         android:layout_margin="20dp"
+        android:text="Next"
+        app:backgroundTint="@color/purple_500"
+        android:textColor="@color/white"
+        app:iconTint="@color/white"
+        android:gravity="center"
+        android:textStyle="bold"
+        app:iconGravity="textEnd"
         android:layout_width="wrap_content"
-        android:src="@drawable/icons8_right_96px"
+        app:icon="@drawable/icons8_right_96px"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_gravity="end|bottom"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

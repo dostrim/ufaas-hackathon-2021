@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -32,6 +34,10 @@ class InterestsActivity : AppCompatActivity() {
         binding = ActivityInterestsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.title = " "
+
         filterInterests()
 
         adapter = InterestAdapter(this, mutableListOf()){
@@ -49,8 +55,18 @@ class InterestsActivity : AppCompatActivity() {
             }else{
                 appPreferences.saveFarmerInterests(adapter.selectedInterests)
                 startActivity(Intent(this,MainActivity::class.java))
+                finishAffinity()
             }
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            android.R.id.home->{
+                onBackPressed()
+            }
+        }
+        return true
     }
 
     private fun filterInterests() {
@@ -82,7 +98,7 @@ class InterestsActivity : AppCompatActivity() {
 class InterestAdapter(val context: Context, var list: MutableList<Interest>, val func:()->Unit)
     : RecyclerView.Adapter<InterestAdapter.InterestHolder>() {
 
-    var selectedInterests = mutableListOf<Interest>()
+    var selectedInterests = AppPreferences(context).getFarmerInterests()
 
     inner class InterestHolder(val binding : SingleInterestBinding)
         : RecyclerView.ViewHolder(binding.root) {
@@ -97,7 +113,7 @@ class InterestAdapter(val context: Context, var list: MutableList<Interest>, val
                 View.GONE
             }
 
-            Glide.with(context).asBitmap().load("${NetworkClient().baseUrl}PlantImages/${obj.plant_icon}")
+            Glide.with(context).asBitmap().load("${NetworkClient().baseUrl}PlantsImages/${obj.plant_icon}")
                 .into(binding.imgInterest)
 
             binding.root.setOnClickListener {

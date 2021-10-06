@@ -16,39 +16,40 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.makeramen.roundedimageview.RoundedImageView
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:id="@+id/imgInterest"
-                android:scaleType="centerCrop"
-                android:layout_marginBottom="10dp"
-                android:layout_gravity="center"
-                android:src="@android:color/black"/>
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:layout_gravity="center"/>
 
-            <TextView
-                android:id="@+id/txtInterest"
-                android:gravity="center"
-                android:textSize="15sp"
-                android:layout_marginBottom="15dp"
-                android:textColor="@android:color/black"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="English"/>
+                android:orientation="horizontal"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/txtInterest"
+                    android:textSize="15sp"
+                    android:padding="14sp"
+                    android:textColor="@android:color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="English"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imgSelected"
+                    android:src="@drawable/ic_baseline_check_circle_24"
+                    app:tint="@color/purple_500" />
+
+            </LinearLayout>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </com.google.android.material.card.MaterialCardView>
 
-    <com.makeramen.roundedimageview.RoundedImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        app:riv_oval="true"
-        android:id="@+id/imgSelected"
-        android:scaleType="centerCrop"
-        android:layout_margin="20dp"
-        android:layout_gravity="top|end"
-        android:elevation="10dp"
-        android:src="@android:color/holo_red_dark"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
