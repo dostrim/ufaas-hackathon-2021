@@ -1,6 +1,9 @@
 <resources>
-    <string name="app_name">CSA Data Center</string>
+    <string name="app_name">AgroAid</string>
     <string name="title_home">Home</string>
     <string name="title_market">Market</string>
     <string name="title_chat">Chat</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_forum">Forum</string>
 </resources>
