@@ -12,7 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.afrosoft.csadatacenter.databinding.ActivityInterestsBinding
 import com.afrosoft.csadatacenter.databinding.DialogFilterInterestBinding
 import com.afrosoft.csadatacenter.databinding.SingleInterestBinding
+import com.afrosoft.csadatacenter.models.Interest
+import com.afrosoft.csadatacenter.network.NetworkClient
 import com.afrosoft.csadatacenter.ui.AppPreferences
+import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class InterestsActivity : AppCompatActivity() {
@@ -44,7 +47,7 @@ class InterestsActivity : AppCompatActivity() {
             if (adapter.selectedInterests.isEmpty()){
                 Toast.makeText(this, "Nothing Selected", Toast.LENGTH_SHORT).show()
             }else{
-                appPreferences.saveInterests(adapter.selectedInterests)
+                appPreferences.saveFarmerInterests(adapter.selectedInterests)
                 startActivity(Intent(this,MainActivity::class.java))
             }
         }
@@ -59,11 +62,12 @@ class InterestsActivity : AppCompatActivity() {
             .create()
 
         bindingDialog.cardCrop.setOnClickListener {
-            adapter.changeList(mutableListOf(Interest("Beans"),Interest("Rice"),Interest("Maize")))
+            adapter.changeList(appPreferences.getAllPlantData())
             dialog.dismiss()
         }
+
         bindingDialog.cardLivestock.setOnClickListener {
-            adapter.changeList(mutableListOf(Interest("Cattle"),Interest("Pigs"),Interest("Goats")))
+            adapter.changeList(mutableListOf())
             dialog.dismiss()
         }
         bindingDialog.buttonCancel.setOnClickListener {
@@ -75,21 +79,6 @@ class InterestsActivity : AppCompatActivity() {
     }
 }
 
-class Interest(val name:String ){
-
-    override fun equals(other: Any?): Boolean {
-        if (other is Interest){
-            return other.name == name
-        }
-        return super.equals(other)
-    }
-
-    override fun hashCode(): Int {
-        return name.hashCode()
-    }
-
-}
-
 class InterestAdapter(val context: Context, var list: MutableList<Interest>, val func:()->Unit)
     : RecyclerView.Adapter<InterestAdapter.InterestHolder>() {
 
@@ -97,14 +86,19 @@ class InterestAdapter(val context: Context, var list: MutableList<Interest>, val
 
     inner class InterestHolder(val binding : SingleInterestBinding)
         : RecyclerView.ViewHolder(binding.root) {
+
         fun displayViews(obj: Interest) {
-            binding.txtInterest.text = obj.name
+
+            binding.txtInterest.text = obj.plant_name
 
             binding.imgSelected.visibility =  if (selectedInterests.contains(obj)){
                 View.VISIBLE
             }else{
                 View.GONE
             }
+
+            Glide.with(context).asBitmap().load("${NetworkClient().baseUrl}PlantImages/${obj.plant_icon}")
+                .into(binding.imgInterest)
 
             binding.root.setOnClickListener {
 

@@ -7,10 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import com.afrosoft.csadatacenter.Interest
 import com.afrosoft.csadatacenter.databinding.FragmentMarketBinding
 import com.afrosoft.csadatacenter.databinding.SingleMarketPricesBinding
-import com.afrosoft.csadatacenter.models.FarmerInterest
+import com.afrosoft.csadatacenter.ui.AppPreferences
 import com.afrosoft.csadatacenter.ui.home.FarmerInterestsAdapter
 
 class MarketFragment : Fragment() {
@@ -27,7 +26,7 @@ class MarketFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.interestsRv.adapter = FarmerInterestsAdapter(requireActivity(),  mutableListOf(Interest("Beans"), Interest("Rice"), Interest("Maize"))){}
+        binding.interestsRv.adapter = FarmerInterestsAdapter(requireActivity(),  AppPreferences(requireActivity()).getFarmerInterests()){}
 
         adapter = MarketPriceAdapter(requireContext(), mutableListOf(MarketPrice(), MarketPrice(),MarketPrice(),MarketPrice(),MarketPrice(),MarketPrice()))
         binding.rvMarketPrices.adapter = adapter

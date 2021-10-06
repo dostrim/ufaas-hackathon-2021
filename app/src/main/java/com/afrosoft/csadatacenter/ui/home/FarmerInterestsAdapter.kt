@@ -5,20 +5,20 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.afrosoft.csadatacenter.Interest
 import com.afrosoft.csadatacenter.R
 import com.afrosoft.csadatacenter.databinding.SingleInterestLayoutBinding
-import com.afrosoft.csadatacenter.models.FarmerInterest
+import com.afrosoft.csadatacenter.models.Interest
 
 class FarmerInterestsAdapter(val context: Context, val list: MutableList<Interest>, val func : (Interest?)->Unit): RecyclerView.Adapter<FarmerInterestsAdapter.FarmerInterestHolder>() {
 
     var selectedInterest : Interest? = list[0]
 
     inner class FarmerInterestHolder(val binding: SingleInterestLayoutBinding): RecyclerView.ViewHolder(binding.root) {
+
         fun setData(interest: Interest) {
-            binding.interestsBackground.setBackgroundResource(if (interest.name == selectedInterest?.name) R.drawable.black_filled_bg else R.drawable.black_border_bg )
-            binding.tagName.setTextColor(if (interest.name == selectedInterest?.name) Color.WHITE else Color.BLACK )
-            binding.tagName.text = interest.name
+            binding.interestsBackground.setBackgroundResource(if (interest.id == selectedInterest?.id) R.drawable.black_filled_bg else R.drawable.black_border_bg )
+            binding.tagName.setTextColor(if (interest.id == selectedInterest?.id) Color.WHITE else Color.BLACK )
+            binding.tagName.text = interest.plant_name
 
             binding.root.setOnClickListener {
                 selectedInterest = interest

@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.afrosoft.csadatacenter.Interest
 import com.afrosoft.csadatacenter.databinding.FragmentHomeBinding
 import com.afrosoft.csadatacenter.models.Attack
-import com.afrosoft.csadatacenter.models.FarmerInterest
+import com.afrosoft.csadatacenter.models.Interest
 import com.afrosoft.csadatacenter.models.Practice
+import com.afrosoft.csadatacenter.ui.AppPreferences
 
 class HomeFragment : Fragment() {
 
@@ -33,13 +33,11 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.interestsRv.adapter = FarmerInterestsAdapter(requireActivity(), mutableListOf(
-            Interest("Beans"),
-            Interest("Rice"),
-            Interest("Maize")
-        )){
-            binding.pestsTitle.text = "Likely Pest attacks for ${it?.name}"
-            binding.diseasesTitle.text = "Likely Disease attacks for ${it?.name}"
+        binding.interestsRv.adapter = FarmerInterestsAdapter(requireActivity(),
+            AppPreferences(requireActivity()).getFarmerInterests()
+        ){
+            binding.pestsTitle.text = "Likely Pest attacks for ${it?.plant_name}"
+            binding.diseasesTitle.text = "Likely Disease attacks for ${it?.plant_name}"
         }
 
         binding.diseaseAttacksRv.adapter = AttacksAdapter(requireActivity(), mutableListOf(

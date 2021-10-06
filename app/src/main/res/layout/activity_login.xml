@@ -68,8 +68,8 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:hintEnabled="false"
-                app:boxBackgroundMode="none">
+                app:boxBackgroundMode="none"
+                app:hintEnabled="false">
 
                 <EditText
                     android:layout_width="match_parent"
@@ -81,7 +81,6 @@
             </com.google.android.material.textfield.TextInputLayout>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
-
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
@@ -98,8 +97,6 @@
                 android:inputType="textPassword"
                 android:padding="10dp" />
         </com.google.android.material.textfield.TextInputLayout>
-
-
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/login_btn"
@@ -122,11 +119,11 @@
 
             <TextView
                 android:id="@+id/register_btn"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Register"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:textSize="18sp"/>
+                android:textSize="18sp" />
         </LinearLayout>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
