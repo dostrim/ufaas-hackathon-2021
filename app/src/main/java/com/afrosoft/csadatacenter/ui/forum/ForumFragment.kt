@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.afrosoft.csadatacenter.Interest
 import com.afrosoft.csadatacenter.R
 import com.afrosoft.csadatacenter.databinding.FragmentForumBinding
 import com.afrosoft.csadatacenter.models.FarmerInterest
@@ -26,12 +27,7 @@ class ForumFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.interestsRv.adapter = FarmerInterestsAdapter(requireActivity(), mutableListOf(
-            FarmerInterest("Cabbage"),
-            FarmerInterest("Tomatoes"),
-            FarmerInterest("Cows"),
-            FarmerInterest("Goats"),
-        ))
+        binding.interestsRv.adapter = FarmerInterestsAdapter(requireActivity(), mutableListOf(Interest("Beans"), Interest("Rice"), Interest("Maize"))){}
 
         binding.forumRv.adapter = ForumAdapter(requireActivity(), mutableListOf(
             Forum(),Forum(),Forum(),Forum(),Forum(),Forum(),Forum(),Forum(),Forum()

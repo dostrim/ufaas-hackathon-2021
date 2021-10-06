@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.afrosoft.csadatacenter.Interest
 import com.afrosoft.csadatacenter.databinding.FragmentHomeBinding
 import com.afrosoft.csadatacenter.models.Attack
 import com.afrosoft.csadatacenter.models.FarmerInterest
@@ -33,8 +34,12 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.interestsRv.adapter = FarmerInterestsAdapter(requireActivity(), mutableListOf(
-            FarmerInterest("Cabbage"),FarmerInterest("Tomatoes"),FarmerInterest("Cows"),FarmerInterest("Goats"),
-        ))
+            Interest("Beans"),
+            Interest("Rice"),
+            Interest("Maize")
+        )){
+
+        }
 
         binding.diseaseAttacksRv.adapter = AttacksAdapter(requireActivity(), mutableListOf(
             Attack(),Attack(),Attack(),Attack(),Attack(),Attack(),Attack()
