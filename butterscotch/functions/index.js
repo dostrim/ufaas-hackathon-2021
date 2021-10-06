@@ -11,6 +11,7 @@
 /* eslint-disable no-unused-vars */
 const functions = require("firebase-functions");
 const firebase = require("firebase-admin");
+const { messaging } = require("firebase-admin");
 const express = require('express');
 const cors = require('cors');
 const UssdMenu = require('ussd-menu-builder');
@@ -20,7 +21,6 @@ const { addPlusDialingCodeToPhoneNumber, capitalizeFirstLetterOfAllWords } = req
 
 
 const serviceAccount = require("./serviceAccount.json");
-const { messaging } = require("firebase-admin");
 firebase.initializeApp({
     credential: firebase.credential.cert(serviceAccount),
 });
@@ -93,9 +93,9 @@ app.post('/', async (request, response) => {
             return firestore.collection('users').add(user);
         }
 
-        const fetchUser = phoneNumber => {
+        const fetchUser = phone_number => {
             let user = null;
-            return firestore.collection('users').where('phoneNumber', '==', phoneNumber).get()
+            return firestore.collection('users').where('phone_number', '==', phone_number).get()
                 .then(snapShot => {
                     if (!snapShot.empty) {
                         snapShot.forEach(doc => {
@@ -110,14 +110,16 @@ app.post('/', async (request, response) => {
 
         const fetchCreateRequest = payload => {
             let request = {
-                user: {...payload.user},
-                service: {...payload.service},
+                user: { ...payload.user },
+                service: { ...payload.service },
                 request_timestamp_millis: payload.created_at,
                 state: 'NEW',
             }
 
             return firestore.collection('requests').add(request);
         }
+
+        const fetchQuery = query => {}
 
         menu.startState({
             run: async () => {
@@ -160,7 +162,7 @@ app.post('/', async (request, response) => {
         });
 
         /**
-         ************************************ Extension Services ***********************************
+         ************************************ Extension Services Feature ***********************************
          */
         menu.state('extensionServices', {
             run: async () => {
@@ -181,11 +183,11 @@ app.post('/', async (request, response) => {
                     return 'extensionServices.confirm'
                 },
                 4: async () => {
-                    await fetchUpdateSession(args.sessionId, { service: { request: 'Harrowing' } })
+                    await fetchUpdateSession({ service: { request: 'Harrowing' } })
                     return 'extensionServices.confirm'
                 },
                 5: async () => {
-                    await fetchUpdateSession(args.sessionId, { service: { request: 'Planting' } })
+                    await fetchUpdateSession({ service: { request: 'Planting' } })
                     return 'extensionServices.confirm'
                 },
             },
@@ -197,7 +199,7 @@ app.post('/', async (request, response) => {
                 menu.con(`EXTENSION SERVICE REQUEST\nName: ${session.user.name}\nRequest: ${session.service.request}\nEnter your PIN to confirm`);
             },
             next: {
-                '*\\d+': async () => { 
+                '*\\d+': async () => {
                     // TODO verify pin
                     let session = await fetchGetSessionIfLive(args.sessionId);
                     fetchCreateRequest(session)
@@ -217,7 +219,7 @@ app.post('/', async (request, response) => {
         });
 
         /**
-         ************************************ Advisory Services ***********************************
+         ************************************ Advisory Services Feature ***********************************
          */
         menu.state('advisoryServices', {
             run: async () => {
@@ -226,33 +228,88 @@ app.post('/', async (request, response) => {
             },
             next: {
                 1: async () => {
-                    await fetchUpdateSession(args.sessionId, { service: { ser: menu.val } });
+                    await fetchUpdateSession({ service: { request: 'Beans' } })
+                    return 'advisoryServices.confirm';
+                },
+                2: async () => {
+                    await fetchUpdateSession({ service: { request: 'Cocoa' } })
+                    return 'advisoryServices.confirm'
+                },
+                3: async () => {
+                    await fetchUpdateSession({ service: { request: 'Coffee' } })
+                    return 'advisoryServices.confirm'
+                },
+                4: async () => {
+                    await fetchUpdateSession({ service: { request: 'Rice' } })
+                    return 'advisoryServices.confirm'
+                },
+                5: async () => {
+                    await fetchUpdateSession({ service: { request: 'Citrus' } })
+                    return 'advisoryServices.confirm'
+                },
+                6: async () => {
+                    await fetchUpdateSession({ service: { request: 'Dairy Cattle' } })
+                    return 'advisoryServices.confirm'
+                },
+                7: async () => {
+                    await fetchUpdateSession({ service: { request: 'Poultry' } })
+                    return 'advisoryServices.confirm'
+                },
+                8: async () => {
+                    await fetchUpdateSession({ service: { request: 'Fish Feeds' } })
+                    return 'advisoryServices.confirm'
+                },
+                9: async () => {
+                    await fetchUpdateSession({ service: { request: 'Apiary' } })
+                    return 'advisoryServices.confirm'
+                },
+                10: async () => {
+                    await fetchUpdateSession({ service: { request: 'Pigs' } })
+                    return 'advisoryServices.confirm'
                 },
             },
         });
 
         menu.state('advisoryServices.confirm', {
-            run: async () => { },
-            next: {},
+            run: async () => {
+                let session = await fetchGetSessionIfLive(args.sessionId);
+                menu.con(`ADVISORY SERVICE REQUEST\nName: ${session.user.name}\nRequest: ${session.service.request}\nEnter your PIN to confirm`);
+            },
+            next: {
+                '*\\d+': async () => {
+                    // TODO verify pin
+                    let session = await fetchGetSessionIfLive(args.sessionId);
+                    fetchCreateRequest(session)
+                    return 'extensionServices.complete';
+                },
+            },
         });
 
         menu.state('advisoryServices.complete', {
-            run: async () => { },
+            run: async () => {
+                let session = await fetchGetSessionIfLive(args.sessionId);
+                fetchCreateRequest(session)
+                menu.end(`ADVISORY SERVICE REQUEST COMPLETED\nYour request has been received and will be processed.`);
+            },
             next: {
 
             },
         });
 
         /**
-         ************************************ Search for Service ***********************************
+         ************************************ Search for Service Feature ***********************************
          */
         menu.state('search', {
             run: async () => {
                 let session = await fetchGetSessionIfLive(args.sessionId)
-                menu.con(``);
+                menu.con(`SEARCH\nEnter search query.`);
             },
             next: {
-                '*\\w+': async () => { },
+                '*\\w+': async () => { 
+                    let search_results = await fetchQuery(menu.val)
+                    await fetchUpdateSession({ service: { request: menu.val } })
+                    return 'search.results';
+                },
             },
         });
 
@@ -272,12 +329,14 @@ app.post('/', async (request, response) => {
         });
 
         /**
-         * ************************************ Account ***********************************
+         * ************************************ Account Feature ***********************************
          * */
-        menu.state('account', {});
+        menu.state('account', {
+
+        });
 
         /**
-         * ************************************ Registration ***********************************
+         * ************************************ Registration Feature ***********************************
          * */
         menu.state('registration', {
             run: async () => {
@@ -414,6 +473,9 @@ exports.onCreateNewFarmer = functions.firestore.document('/users/user_id').onCre
 });
 
 exports.onCreateNewRequest = functions.firestore.document('/requests/request_id').onCreate(async (snap, context) => {
+
+    // TODO write to gsheets
+    
 
 });
 
