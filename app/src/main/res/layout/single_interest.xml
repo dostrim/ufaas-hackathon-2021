@@ -40,4 +40,15 @@
 
     </com.google.android.material.card.MaterialCardView>
 
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:riv_oval="true"
+        android:id="@+id/imgSelected"
+        android:scaleType="centerCrop"
+        android:layout_margin="20dp"
+        android:layout_gravity="top|end"
+        android:elevation="10dp"
+        android:src="@android:color/holo_red_dark"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -10,20 +10,18 @@ import com.afrosoft.csadatacenter.databinding.FragmentMarketBinding
 class MarketFragment : Fragment() {
 
     private var _binding: FragmentMarketBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentMarketBinding.inflate(inflater, container, false)
-
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+
     }
 
     override fun onDestroyView() {
@@ -31,3 +29,8 @@ class MarketFragment : Fragment() {
         _binding = null
     }
 }
+
+class MarketPrice()
+
+
+
