@@ -29,7 +29,11 @@ class SplashActivity : AppCompatActivity() {
                 startActivity(Intent(this@SplashActivity, LanguagesActivity::class.java))
                 finish()
             }else{
-                startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                if(AppPreferences(this@SplashActivity).getUser()==null)
+                    startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                else
+                    startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+
                 finish()
             }
 

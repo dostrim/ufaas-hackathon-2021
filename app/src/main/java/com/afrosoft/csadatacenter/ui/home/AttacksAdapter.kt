@@ -13,7 +13,7 @@ class AttacksAdapter(val context: Context, var list: MutableList<Attack>): Recyc
 
     inner class AttackHolder(val binding: SingleAttackLayoutBinding): RecyclerView.ViewHolder(binding.root) {
         fun setData(attack: Attack) {
-            binding.name.text = attack.disease
+            binding.name.text = attack.name
             Glide.with(context).asBitmap().load("${NetworkClient().baseUrl}PlantDiseaseImages/${attack.image}")
                 .into(binding.image)
 
@@ -30,4 +30,8 @@ class AttacksAdapter(val context: Context, var list: MutableList<Attack>): Recyc
     }
 
     override fun getItemCount(): Int = list.size
+    fun changeData(diseases: MutableList<Attack>?) {
+        this.list = diseases!!
+        notifyDataSetChanged()
+    }
 }

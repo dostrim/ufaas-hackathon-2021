@@ -58,6 +58,7 @@
             android:orientation="horizontal">
 
             <com.hbb20.CountryCodePicker
+                android:id="@+id/ccp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:ccp_defaultNameCode="ug"
@@ -72,6 +73,7 @@
                 app:hintEnabled="false">
 
                 <EditText
+                    android:id="@+id/phone_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
@@ -94,6 +96,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
+                android:id="@+id/password"
                 android:inputType="textPassword"
                 android:padding="10dp" />
         </com.google.android.material.textfield.TextInputLayout>

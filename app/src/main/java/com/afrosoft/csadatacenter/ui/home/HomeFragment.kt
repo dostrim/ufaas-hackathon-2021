@@ -8,21 +8,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.afrosoft.csadatacenter.InterestsActivity
+import com.afrosoft.csadatacenter.MainActivity
+import com.afrosoft.csadatacenter.databinding.DialogPlantingDateBinding
 import com.afrosoft.csadatacenter.databinding.FragmentHomeBinding
-import com.afrosoft.csadatacenter.models.Attack
-import com.afrosoft.csadatacenter.models.Interest
-import com.afrosoft.csadatacenter.models.Practice
+import com.afrosoft.csadatacenter.models.*
 import com.afrosoft.csadatacenter.network.NetworkClient
 import com.afrosoft.csadatacenter.ui.AppPreferences
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.ParsedRequestListener
 import com.androidnetworking.interfaces.StringRequestListener
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 class HomeFragment : Fragment() {
 
+    private var interest: Interest? = null
     private lateinit var diseaseAdapter: AttacksAdapter
     private lateinit var pestAdapter: AttacksAdapter
     private var _binding: FragmentHomeBinding? = null
@@ -52,9 +55,10 @@ class HomeFragment : Fragment() {
             binding.pestsTitle.text = "Likely Pest attacks for ${it?.plant_name}"
             binding.diseasesTitle.text = "Likely Disease attacks for ${it?.plant_name}"
 
-            /*get data for likely pests and diseases*/
-            fetchLikelyPests(it?.id)
-            fetchLikelyDiseases(it?.id)
+            interest = it
+            getHomeData()
+
+            getCloseMarketPrice()
         }
 
         /*disease adapter instance*/
@@ -74,6 +78,100 @@ class HomeFragment : Fragment() {
         }
 
 
+    }
+
+    private fun getCloseMarketPrice() {
+
+        AndroidNetworking.post("https://lyk.rkl.mybluehost.me/agro_aid/api/get_market_prices.php")
+            .addBodyParameter("plant_id",interest?.id)
+            .build()
+            .getAsString(object : StringRequestListener {
+                override fun onResponse(response: String?) {
+                    Log.e(">>>","::${response}")
+
+                    val list: MutableList<MarketPrice> = Gson().fromJson(response, object : TypeToken<List<MarketPrice?>?>() {}.type)
+                    val price = list.firstOrNull()
+                    binding.priceMarket.text = price?.market?.name
+                    binding.priceAmount.text = price?.price
+                    binding.priceWeight.text = "Per ${price?.units}"
+
+                    //adapter.changeList(list)
+                }
+
+                override fun onError(anError: ANError?) {
+                    Toast.makeText(requireContext(),"No Internet Connection",Toast.LENGTH_LONG).show()
+                }
+            } )
+
+    }
+
+    private fun getHomeData() {
+        AndroidNetworking.post("https://lyk.rkl.mybluehost.me/agro_aid/api/get_home.php")
+                    .addBodyParameter("farmer_id",AppPreferences(requireContext()).getUser()?.id)
+                    .addBodyParameter("plant_id",interest?.id)
+                    .build()
+                    .getAsString(object : StringRequestListener {
+                        override fun onResponse(response: String?) {
+        
+                            val nrf = Gson().fromJson(response, HomeData::class.java)
+                            if (nrf.status_code == 200){
+                                //action
+                                diseaseAdapter.changeData(nrf.diseases)
+                                pestAdapter.changeData(nrf.pests)
+
+
+
+                            }else{
+                                showSetPlantingDate()
+                            }
+
+                            Toast.makeText(requireContext(), nrf.status_message, Toast.LENGTH_SHORT).show()
+                        }
+        
+                        override fun onError(anError: ANError?) {
+                            Toast.makeText(requireContext(), "No Internet", Toast.LENGTH_SHORT).show()
+                        }
+                    })
+    }
+
+    private fun showSetPlantingDate() {
+        val bindingD = DialogPlantingDateBinding.inflate(layoutInflater,null,false)
+
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+            .setView(bindingD.root)
+            .setCancelable(false)
+            .create()
+
+        bindingD.submit.setOnClickListener {
+
+                AndroidNetworking.post("https://lyk.rkl.mybluehost.me/agro_aid/api/update_farmers_plants_plantingdate.php")
+                 .addBodyParameter("planting_date",bindingD.plantingDate.text.toString())
+                 .addBodyParameter("plant_id",interest?.id)
+                 .addBodyParameter("farmer_id",AppPreferences(requireContext()).getUser()?.id)
+                 .build()
+                 .getAsString(object : StringRequestListener {
+                    override fun onResponse(response: String?) {
+
+                        val nrf = Gson().fromJson(response, UserResponse::class.java)
+                        if (nrf.status_code == 200){
+                            //action
+                            getHomeData()
+                        }
+
+                        Toast.makeText(requireContext(), nrf.status_message, Toast.LENGTH_SHORT).show()
+                        dialog.dismiss()
+
+                    }
+
+                    override fun onError(anError: ANError?) {
+                        Toast.makeText(requireContext(), "No Internet", Toast.LENGTH_SHORT).show()
+                        dialog.dismiss()
+                    }
+                })
+
+        }
+
+        dialog.show()
     }
 
     private fun fetchLikelyDiseases(id: String?) {

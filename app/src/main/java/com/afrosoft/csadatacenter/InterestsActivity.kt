@@ -14,11 +14,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.afrosoft.csadatacenter.databinding.ActivityInterestsBinding
 import com.afrosoft.csadatacenter.databinding.DialogFilterInterestBinding
 import com.afrosoft.csadatacenter.databinding.SingleInterestBinding
+import com.afrosoft.csadatacenter.models.BasicResponse
 import com.afrosoft.csadatacenter.models.Interest
 import com.afrosoft.csadatacenter.network.NetworkClient
 import com.afrosoft.csadatacenter.ui.AppPreferences
+import com.androidnetworking.AndroidNetworking
+import com.androidnetworking.error.ANError
+import com.androidnetworking.interfaces.StringRequestListener
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 class InterestsActivity : AppCompatActivity() {
 
@@ -78,7 +84,8 @@ class InterestsActivity : AppCompatActivity() {
             .create()
 
         bindingDialog.cardCrop.setOnClickListener {
-            adapter.changeList(appPreferences.getAllPlantData())
+            fetchInterests()
+            //adapter.changeList(appPreferences.getAllPlantData())
             dialog.dismiss()
         }
 
@@ -93,6 +100,25 @@ class InterestsActivity : AppCompatActivity() {
 
         dialog.show()
     }
+    
+    
+    private fun fetchInterests() {
+        AndroidNetworking.post("https://lyk.rkl.mybluehost.me/agro_aid/api/get_plants.php")
+                .build()
+                .getAsString(object : StringRequestListener {
+                    override fun onResponse(response: String?) {
+                        Log.e(">>>","::${response}")
+    
+                        val list: MutableList<Interest> = Gson().fromJson(response, object : TypeToken<List<Interest?>?>() {}.type)
+                        adapter.changeList(list)
+                    }
+    
+                    override fun onError(anError: ANError?) {
+                        Toast.makeText(this@InterestsActivity,"No Internet Connection",Toast.LENGTH_LONG).show()
+                    }
+                } )
+            }
+    
 }
 
 class InterestAdapter(val context: Context, var list: MutableList<Interest>, val func:()->Unit)
@@ -120,8 +146,10 @@ class InterestAdapter(val context: Context, var list: MutableList<Interest>, val
 
                 if (selectedInterests.contains(obj)){
                     selectedInterests.remove(obj)
+                    removeInterest(obj)
                 }else{
                     selectedInterests.add(obj)
+                    addInterest(obj)
                 }
 
                 notifyDataSetChanged()
@@ -129,6 +157,51 @@ class InterestAdapter(val context: Context, var list: MutableList<Interest>, val
 
             }
         }
+    }
+
+    private fun removeInterest(obj: Interest) {
+        AndroidNetworking.post("https://lyk.rkl.mybluehost.me/agro_aid/api/remove_farmers_plants.php")
+                    .addBodyParameter("plant_id",obj.id)
+                    .addBodyParameter("farmer_id",AppPreferences(context).getUser()?.id)
+                    .build()
+                    .getAsString(object : StringRequestListener {
+                        override fun onResponse(response: String?) {
+        
+                            val nrf = Gson().fromJson(response, BasicResponse::class.java)
+                            if (nrf.status_code == 200){
+                                //action
+                            }
+
+                            Toast.makeText(context, nrf.status_message, Toast.LENGTH_SHORT).show()
+                        }
+        
+                        override fun onError(anError: ANError?) {
+                            Toast.makeText(context, "No Internet", Toast.LENGTH_SHORT).show()
+                        }
+                    })
+    }
+
+    private fun addInterest(obj: Interest) {
+
+        AndroidNetworking.post("https://lyk.rkl.mybluehost.me/agro_aid/api/save_farmers_plants.php")
+            .addBodyParameter("plant_id",obj.id)
+            .addBodyParameter("farmer_id",AppPreferences(context).getUser()?.id)
+            .build()
+            .getAsString(object : StringRequestListener {
+                override fun onResponse(response: String?) {
+
+                    val nrf = Gson().fromJson(response, BasicResponse::class.java)
+                    if (nrf.status_code == 200){
+                        //action
+                    }
+
+                    Toast.makeText(context, nrf.status_message, Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onError(anError: ANError?) {
+                    Toast.makeText(context, "No Internet", Toast.LENGTH_SHORT).show()
+                }
+            })
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InterestHolder {

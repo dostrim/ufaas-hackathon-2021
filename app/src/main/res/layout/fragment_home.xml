@@ -153,6 +153,7 @@
                         android:padding="16dp">
 
                         <TextView
+                            android:id="@+id/price_market"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
@@ -181,6 +182,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="UGX 3500"
+                                    android:id="@+id/price_amount"
                                     android:textColor="@android:color/holo_green_dark"
                                     android:textSize="18sp"
                                     android:textStyle="bold" />
@@ -189,6 +191,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="per Kg"
+                                    android:id="@+id/price_weight"
                                     android:textSize="14sp" />
                             </LinearLayout>
 
@@ -196,6 +199,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="8dp"
+                                android:id="@+id/price_arrow"
                                 android:src="@drawable/ic_baseline_arrow_upward_24"
                                 app:tint="@android:color/holo_green_dark" />
                         </androidx.appcompat.widget.LinearLayoutCompat>
