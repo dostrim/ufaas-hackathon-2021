@@ -18,7 +18,7 @@ class PlantsDataFetcher(context: Context, params: WorkerParameters): CoroutineWo
     }
 
     private fun fetchPlantsData() {
-        AndroidNetworking.get("${NetworkClient().baseUrl}retrieve_plants.php")
+        AndroidNetworking.get("${NetworkClient().baseUrl}retrieve_plants")
             .doNotCacheResponse()
             .build()
             .getAsString(object : StringRequestListener {

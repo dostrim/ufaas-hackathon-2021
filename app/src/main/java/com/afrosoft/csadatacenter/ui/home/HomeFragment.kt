@@ -51,7 +51,7 @@ class HomeFragment : Fragment() {
     private lateinit var pestAdapter: AttacksAdapter
     private var _binding: FragmentHomeBinding? = null
 
-    private val weatherApiKey = "29c558c529a627e853fe2146d56a3e4d"
+    private val weatherApiKey = "{your weather key}"
     private val SingleDayWeatherApi = "http://api.openweathermap.org/data/2.5/weather"
     private lateinit var resultReceiver: ResultReceiver
 
@@ -117,7 +117,7 @@ class HomeFragment : Fragment() {
     private fun getCloseMarketPrice() {
 
         binding.containerCropPrice.visibility = View.GONE
-        AndroidNetworking.post("https://lyk.rkl.mybluehost.me/agro_aid/api/get_market_prices.php")
+        AndroidNetworking.post("{BASE_URL}api/get_market_prices")
             .addBodyParameter("plant_id", interest?.id)
             .build()
             .getAsString(object : StringRequestListener {
@@ -144,7 +144,7 @@ class HomeFragment : Fragment() {
 
     private fun getHomeData() {
         binding.containerCropData.visibility = View.GONE
-        AndroidNetworking.post("https://lyk.rkl.mybluehost.me/agro_aid/api/get_home.php")
+        AndroidNetworking.post("{BASE_URL}api/get_home")
                     .addBodyParameter("farmer_id",AppPreferences(requireContext()).getUser()?.id)
                     .addBodyParameter("plant_id",interest?.id)
                     .build()
@@ -182,7 +182,7 @@ class HomeFragment : Fragment() {
 
         bindingD.submit.setOnClickListener {
 
-            AndroidNetworking.post("https://lyk.rkl.mybluehost.me/agro_aid/api/update_farmers_plants_plantingdate.php")
+            AndroidNetworking.post("{BASE_URL}api/update_farmers_plants_plantingdate")
                 .addBodyParameter("planting_date", bindingD.plantingDate.text.toString())
                 .addBodyParameter("plant_id", interest?.id)
                 .addBodyParameter("farmer_id", AppPreferences(requireContext()).getUser()?.id)
@@ -215,7 +215,7 @@ class HomeFragment : Fragment() {
 
     private fun fetchLikelyDiseases(id: String?) {
         binding.diseasePb.visibility = View.VISIBLE
-        AndroidNetworking.post("${NetworkClient().baseUrl}AgroAidApis/retrieve_plant_diseases.php")
+        AndroidNetworking.post("${NetworkClient().baseUrl}retrieve_plant_diseases")
             .addBodyParameter("id", id)
             .doNotCacheResponse()
             .build()
@@ -247,7 +247,7 @@ class HomeFragment : Fragment() {
     private fun fetchLikelyPests(id: String?) {
         binding.pestsPb.visibility = View.VISIBLE
 
-        AndroidNetworking.post("${NetworkClient().baseUrl}AgroAidApis/retrieve_plant_pests.php")
+        AndroidNetworking.post("${NetworkClient().baseUrl}retrieve_plant_pests")
             .addBodyParameter("id", id)
             .doNotCacheResponse()
             .build()

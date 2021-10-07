@@ -34,7 +34,7 @@ class LoginActivity : AppCompatActivity() {
         binding.ccp.registerCarrierNumberEditText(binding.phoneNumber)
         binding.loginBtn.setOnClickListener {
             
-        AndroidNetworking.post("https://lyk.rkl.mybluehost.me/agro_aid/api/sign_in.php")
+        AndroidNetworking.post("{BASE_URL}api/sign_in")
                     .addBodyParameter("phone_number",binding.ccp.fullNumberWithPlus)
                     .addBodyParameter("password",binding.password.text.toString())
                     .build()

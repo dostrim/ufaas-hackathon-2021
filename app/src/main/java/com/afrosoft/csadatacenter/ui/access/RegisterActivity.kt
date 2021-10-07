@@ -43,7 +43,7 @@ class RegisterActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             
-            AndroidNetworking.post("https://lyk.rkl.mybluehost.me/agro_aid/api/sign_up.php")
+            AndroidNetworking.post("{BASE_URL}api/sign_up")
                         .addBodyParameter("first_name",binding.firstName.text.toString())
                         .addBodyParameter("last_name",binding.lastName.text.toString())
                         .addBodyParameter("phone_number",binding.ccp.fullNumberWithPlus)
