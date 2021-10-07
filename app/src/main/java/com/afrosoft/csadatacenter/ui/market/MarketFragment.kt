@@ -46,6 +46,8 @@ class MarketFragment : Fragment() {
 
         AndroidNetworking.post("https://lyk.rkl.mybluehost.me/agro_aid/api/get_market_prices.php")
             .addBodyParameter("plant_id","6")
+            .addBodyParameter("latitude","0.341421")
+            .addBodyParameter("longitude","32.585129")
             .build()
             .getAsString(object : StringRequestListener {
                 override fun onResponse(response: String?) {

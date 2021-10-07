@@ -8,6 +8,10 @@ import com.afrosoft.csadatacenter.databinding.SingleAttackLayoutBinding
 import com.afrosoft.csadatacenter.models.Attack
 import com.afrosoft.csadatacenter.network.NetworkClient
 import com.bumptech.glide.Glide
+import android.content.Intent
+
+
+
 
 class AttacksAdapter(val context: Context, var list: MutableList<Attack>): RecyclerView.Adapter<AttacksAdapter.AttackHolder>() {
 
@@ -17,6 +21,16 @@ class AttacksAdapter(val context: Context, var list: MutableList<Attack>): Recyc
             Glide.with(context).asBitmap().load("${NetworkClient().baseUrl}PlantDiseaseImages/${attack.image}")
                 .into(binding.image)
 
+            binding.root.setOnClickListener{
+                val intent = Intent(context, PlantDiseasePreviewActivity::class.java)
+                intent.putExtra("image", attack.image)
+                intent.putExtra("name", attack.name)
+                intent.putExtra("description", attack.description)
+                intent.putExtra("cause", attack.cause)
+                intent.putExtra("symptom", attack.symptom)
+                intent.putExtra("treatment", attack.treatment)
+                context.startActivity(intent)
+            }
         }
 
     }

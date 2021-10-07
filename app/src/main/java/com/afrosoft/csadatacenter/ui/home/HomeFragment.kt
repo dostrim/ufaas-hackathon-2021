@@ -76,6 +76,8 @@ class HomeFragment : Fragment() {
 
         AndroidNetworking.initialize(requireActivity())
 
+        binding.containerCropData.visibility = View.GONE
+
         binding.interestsRv.adapter = FarmerInterestsAdapter(
             requireActivity(),
             AppPreferences(requireActivity()).getFarmerInterests()
@@ -84,12 +86,14 @@ class HomeFragment : Fragment() {
             binding.diseasesTitle.text = "Likely Disease attacks for ${it?.plant_name}"
 
             interest = it
+
             getHomeData()
 
             getCloseMarketPrice()
         }
 
         /*disease adapter instance*/
+
         diseaseAdapter = AttacksAdapter(requireActivity(), mutableListOf())
         binding.diseaseAttacksRv.adapter = diseaseAdapter
 
@@ -112,6 +116,7 @@ class HomeFragment : Fragment() {
 
     private fun getCloseMarketPrice() {
 
+        binding.containerCropPrice.visibility = View.GONE
         AndroidNetworking.post("https://lyk.rkl.mybluehost.me/agro_aid/api/get_market_prices.php")
             .addBodyParameter("plant_id", interest?.id)
             .build()
@@ -119,11 +124,11 @@ class HomeFragment : Fragment() {
                 override fun onResponse(response: String?) {
                     Log.e(">>>", "::${response}")
 
-                    val list: MutableList<MarketPrice> =
-                        Gson().fromJson(response, object : TypeToken<List<MarketPrice?>?>() {}.type)
+                    binding.containerCropPrice.visibility = View.VISIBLE
+                    val list: MutableList<MarketPrice> = Gson().fromJson(response, object : TypeToken<List<MarketPrice?>?>() {}.type)
                     val price = list.firstOrNull()
                     binding.priceMarket.text = price?.market?.name
-                    binding.priceAmount.text = price?.price
+                    binding.priceAmount.text = "UGX ${price?.price}"
                     binding.priceWeight.text = "Per ${price?.units}"
 
                     //adapter.changeList(list)
@@ -138,23 +143,25 @@ class HomeFragment : Fragment() {
     }
 
     private fun getHomeData() {
+        binding.containerCropData.visibility = View.GONE
         AndroidNetworking.post("https://lyk.rkl.mybluehost.me/agro_aid/api/get_home.php")
-            .addBodyParameter("farmer_id", AppPreferences(requireContext()).getUser()?.id)
-            .addBodyParameter("plant_id", interest?.id)
-            .build()
-            .getAsString(object : StringRequestListener {
-                override fun onResponse(response: String?) {
+                    .addBodyParameter("farmer_id",AppPreferences(requireContext()).getUser()?.id)
+                    .addBodyParameter("plant_id",interest?.id)
+                    .build()
+                    .getAsString(object : StringRequestListener {
+                        override fun onResponse(response: String?) {
 
-                    val nrf = Gson().fromJson(response, HomeData::class.java)
-                    if (nrf.status_code == 200) {
-                        //action
-                        diseaseAdapter.changeData(nrf.diseases)
-                        pestAdapter.changeData(nrf.pests)
+                            val nrf = Gson().fromJson(response, HomeData::class.java)
+                            if (nrf.status_code == 200){
+                                        //action
+                                        binding.containerCropData.visibility = View.VISIBLE
+                                        diseaseAdapter.changeData(nrf.diseases)
+                                        pestAdapter.changeData(nrf.pests)
+                                        binding.plantAge.text = "Between ${nrf.plant_age?.minimum} Days and ${nrf.plant_age?.maximum} Days"
 
-
-                    } else {
-                        showSetPlantingDate()
-                    }
+                            } else {
+                                showSetPlantingDate()
+                            }
 
                     Toast.makeText(requireContext(), nrf.status_message, Toast.LENGTH_SHORT).show()
                 }

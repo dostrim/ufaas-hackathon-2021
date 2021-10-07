@@ -68,6 +68,7 @@
 
                         <TextView
                             android:padding="10dp"
+                            android:id="@+id/specialist_distance"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@android:color/white"
@@ -93,6 +94,7 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
                                 <TextView
+                                    android:id="@+id/specialist_name"
                                     android:layout_marginBottom="5dp"
                                     android:textStyle="bold"
                                     android:textSize="16sp"
@@ -100,10 +102,12 @@
                                     android:layout_height="wrap_content"
                                     android:text="John Doe"/>
                                 <TextView
+                                    android:id="@+id/specialist_address"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Kasangati Town Council"/>
                                 <TextView
+                                    android:id="@+id/specialist_speciality"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Beans Specialist"/>
@@ -114,6 +118,7 @@
                                     android:background="@android:color/black"/>
 
                                 <TextView
+                                    android:id="@+id/specialist_description"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Frondators observare, tanquam clemens xiphias.Sunt quadraes contactus azureus, neuter lamiaes.Indictios sunt pess de grandis visus."/>

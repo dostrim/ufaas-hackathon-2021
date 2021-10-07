@@ -48,6 +48,7 @@
                             android:text="Name"/>
 
                         <TextView
+                            android:id="@+id/specialist_name"
                             android:textStyle="bold"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -67,10 +68,11 @@
                             android:text="Phone"/>
 
                         <TextView
+                            android:id="@+id/specialist_phone"
                             android:textStyle="bold"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0712345678"/>
+                            android:text="-"/>
 
                     </LinearLayout>
 
@@ -83,10 +85,11 @@
                         <TextView
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
-                            android:text="Email"/>
+                            android:text="Speciality"/>
 
                         <TextView
                             android:textStyle="bold"
+                            android:id="@+id/specialist_speciality"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="johndoe@gmail.com"/>
@@ -106,6 +109,26 @@
 
                         <TextView
                             android:textStyle="bold"
+                            android:id="@+id/specialist_address"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Kisaasi Kyanja (UG)"/>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:padding="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="Distance"/>
+
+                        <TextView
+                            android:textStyle="bold"
+                            android:id="@+id/specialist_distance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Kisaasi Kyanja (UG)"/>
@@ -126,6 +149,7 @@
                             android:textStyle="bold"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:id="@+id/specialist_description"
                             android:text="Albus, ferox hilotaes grauiter gratia de rusticus, magnum spatii. Est gratis triticum, cesaris. Ecce, bi-color amicitia! Velox zeta vix carpseriss lanista est. Eheu, azureus verpa!Pol, dexter saga!Cur cursus ortum?Pol, a bene clabulare."/>
 
                     </LinearLayout>

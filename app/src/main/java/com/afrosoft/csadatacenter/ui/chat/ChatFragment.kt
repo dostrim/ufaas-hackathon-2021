@@ -4,14 +4,23 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.afrosoft.csadatacenter.R
 import com.afrosoft.csadatacenter.databinding.FragmentChatBinding
 import com.afrosoft.csadatacenter.databinding.SingleSpecialistsBinding
+import com.afrosoft.csadatacenter.models.Interest
+import com.afrosoft.csadatacenter.models.Specialist
+import com.androidnetworking.AndroidNetworking
+import com.androidnetworking.error.ANError
+import com.androidnetworking.interfaces.StringRequestListener
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 class ChatFragment : Fragment() {
 
@@ -42,9 +51,10 @@ class ChatFragment : Fragment() {
             showExtensionWorkers()
         }
 
-        adapter = SpecialistAdapter(requireContext(), mutableListOf(Specialist(),Specialist(),Specialist(),Specialist(),))
+        adapter = SpecialistAdapter(requireContext(), mutableListOf())
         binding.rvSpecialists.adapter = adapter
 
+        binding.buttonAgronomists.callOnClick()
     }
 
     private fun showExtensionWorkers() {
@@ -53,6 +63,8 @@ class ChatFragment : Fragment() {
 
         binding.buttonAgronomists.setBackgroundResource(R.drawable.black_border_bg)
         binding.buttonAgronomists.setTextColor(Color.BLACK)
+
+        getWorkers("extension_workers")
     }
     private fun showAgronomists() {
         binding.buttonAgronomists.setBackgroundResource(R.drawable.black_filled_bg)
@@ -60,6 +72,40 @@ class ChatFragment : Fragment() {
 
         binding.buttonExtensionWorkers.setBackgroundResource(R.drawable.black_border_bg)
         binding.buttonExtensionWorkers.setTextColor(Color.BLACK)
+
+        getWorkers("agronomists")
+    }
+
+    private fun getWorkers(type: String) {
+
+        AndroidNetworking.post("https://lyk.rkl.mybluehost.me/agro_aid/api/get_workers.php")
+            .addBodyParameter("type",type)
+            .addBodyParameter("latitude","0.341421")
+            .addBodyParameter("longitude","32.585129")
+            .build()
+            .getAsString(object : StringRequestListener {
+                override fun onResponse(response: String?) {
+                    Log.e(">>>","::${response}")
+
+                    val list: MutableList<Specialist> = Gson().fromJson(response, object : TypeToken<List<Specialist?>?>() {}.type)
+                    adapter.changeList(list)
+
+                    val specialist = list.firstOrNull()
+                    if (specialist!=null){
+                        binding.specialistAddress.text = specialist?.location
+                        binding.specialistName.text = specialist?.name
+                        binding.specialistDescription.text = specialist?.description
+                        binding.specialistSpeciality.text = specialist?.speciality
+                        binding.specialistDistance.text = "${specialist?.distance} Km Away"
+                    }
+
+                }
+
+                override fun onError(anError: ANError?) {
+                    Toast.makeText(requireContext(),"No Internet Connection", Toast.LENGTH_LONG).show()
+                }
+            } )
+
     }
 
     override fun onDestroyView() {
@@ -68,7 +114,6 @@ class ChatFragment : Fragment() {
     }
 }
 
-class Specialist()
 
 class SpecialistAdapter(val context: Context, var list: MutableList<Specialist>)
     : RecyclerView.Adapter<SpecialistAdapter.SpecialistHolder>() {
@@ -76,8 +121,13 @@ class SpecialistAdapter(val context: Context, var list: MutableList<Specialist>)
     inner class SpecialistHolder(val binding : SingleSpecialistsBinding)
         : RecyclerView.ViewHolder(binding.root) {
         fun displayViews(obj: Specialist) {
+
+            binding.name.text = obj.name
+            binding.distance.text = "${obj.distance} Km Away"
+            binding.address.text = obj.location
+
             binding.root.setOnClickListener {
-                context.startActivity(Intent(context,SpecialistActivity::class.java))
+                context.startActivity(Intent(context,SpecialistActivity::class.java).putExtra("specialist",Gson().toJson(obj)))
             }
         }
     }
@@ -91,4 +141,8 @@ class SpecialistAdapter(val context: Context, var list: MutableList<Specialist>)
     }
 
     override fun getItemCount(): Int = list.size
+    fun changeList(list: MutableList<Specialist>) {
+        this.list = list
+        notifyDataSetChanged()
+    }
 }
