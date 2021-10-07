@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.chat.SpecialistActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:layout_width="140dp"
+                android:layout_gravity="center"
+                app:riv_oval="true"
+                android:layout_marginBottom="10dp"
+                android:layout_height="140dp"
+                android:src="@drawable/profile_avatar"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="10dp"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:padding="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="Name"/>
+
+                        <TextView
+                            android:id="@+id/specialist_name"
+                            android:textStyle="bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Name"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:padding="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="Phone"/>
+
+                        <TextView
+                            android:id="@+id/specialist_phone"
+                            android:textStyle="bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:padding="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="Speciality"/>
+
+                        <TextView
+                            android:textStyle="bold"
+                            android:id="@+id/specialist_speciality"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="johndoe@gmail.com"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:padding="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="Address"/>
+
+                        <TextView
+                            android:textStyle="bold"
+                            android:id="@+id/specialist_address"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Kisaasi Kyanja (UG)"/>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:padding="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="Distance"/>
+
+                        <TextView
+                            android:textStyle="bold"
+                            android:id="@+id/specialist_distance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Kisaasi Kyanja (UG)"/>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:padding="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="Speciality"/>
+
+                        <TextView
+                            android:textStyle="bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/specialist_description"
+                            android:text="Albus, ferox hilotaes grauiter gratia de rusticus, magnum spatii. Est gratis triticum, cesaris. Ecce, bi-color amicitia! Velox zeta vix carpseriss lanista est. Eheu, azureus verpa!Pol, dexter saga!Cur cursus ortum?Pol, a bene clabulare."/>
+
+                    </LinearLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="8dp"
+                android:layout_height="180dp">
+
+                <fragment
+                    android:id="@+id/map"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:context=".setupyourfarm.MapsActivity" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Phone "
+                    android:layout_weight="1"
+                    android:layout_margin="8dp"
+                    app:icon="@drawable/icons8_phone_96px"
+                    app:iconGravity="start"
+                    android:layout_gravity="center"
+                    android:gravity="center"/>
+
+
+                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Chat"
+                    android:layout_weight="1"
+                    app:icon="@drawable/icons8_topic_96px"
+                    android:layout_margin="8dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/icons8_video_call_96px"
+                android:text="Video Call"
+                app:iconGravity="textStart"
+                android:layout_margin="8dp"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

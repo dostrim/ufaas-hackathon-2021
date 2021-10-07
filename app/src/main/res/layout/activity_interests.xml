@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".InterestsActivity">
+
+    <LinearLayout
+        android:paddingVertical="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Click to Select Your Interest"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/rv_interests"
+            android:orientation="vertical"
+            app:spanCount="2"
+            android:layout_marginBottom="60dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            tools:listitem="@layout/single_interest"/>
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/buttonContinue"
+        android:layout_margin="20dp"
+        android:text="Next"
+        app:backgroundTint="@color/purple_500"
+        android:textColor="@color/white"
+        app:iconTint="@color/white"
+        android:gravity="center"
+        android:textStyle="bold"
+        app:iconGravity="textEnd"
+        android:layout_width="wrap_content"
+        app:icon="@drawable/icons8_right_96px"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

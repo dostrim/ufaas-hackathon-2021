@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="8dp">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:src="@drawable/practise"
+        android:scaleType="centerCrop"
+        app:riv_corner_radius="5dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Weeding"
+        android:padding="5dp"
+        android:textColor="@android:color/holo_green_dark"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Make sure you know how to weed out the fields"
+        android:minLines="2"
+        android:maxLines="2"
+        android:padding="5dp"
+        android:ellipsize="end" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Read more"
+        android:padding="5dp"
+        android:textColor="@android:color/holo_blue_dark"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

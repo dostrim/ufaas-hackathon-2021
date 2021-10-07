@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".ui.home.PlantDiseasePreviewActivity"
+    tools:showIn="@layout/activity_plant_disease_preview">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="16dp">
+        <TextView
+            android:id="@+id/disease_name_preview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Anthracnose"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:textSize="28sp"/>
+
+        <TextView
+            android:id="@+id/disease_description_preview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="large_text"
+            android:padding="8dp"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Causes"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/disease_cause_preview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="string"
+            android:padding="8dp"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Symptoms"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/disease_symptom_preview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="string"
+            android:padding="8dp"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Treatment"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/disease_treatment_preview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="string"
+            android:padding="8dp"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"/>
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
