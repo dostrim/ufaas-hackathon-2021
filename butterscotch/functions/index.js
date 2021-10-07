@@ -62,7 +62,6 @@ app.post('/', async (request, response) => {
                 },
             }
 
-            console.log(session)
             return firestore.collection('sessions').add(session);
         }
 
@@ -127,7 +126,7 @@ app.post('/', async (request, response) => {
             run: async () => {
                 await fetchCreateSession({
                     ussd_session_id: args.sessionId,
-                    phoneNumber: args.phoneNumber,
+                    phone_number: args.phoneNumber,
                 })
                 let session = await fetchGetSessionIfLive(args.sessionId);
                 let user = await fetchUser(args.phoneNumber);
@@ -135,8 +134,8 @@ app.post('/', async (request, response) => {
                     await fetchUpdateSession({ user: { id: null, name: null, phoneNumber: args.phoneNumber, location: null } })
                     menu.con(`Hello, your number ${args.phoneNumber} is not registered on the platform. Enter 0 to register. \n0: Registration`);
                 } else {
-                    await fetchUpdateSession({ user: { id: user.id, name: user.name, phoneNumber: user.phoneNumber, location: `${user.district} District,${user.village} Village` } })
-                    menu.con(`Hello ${capitalizeFirstLetterOfAllWords(user.name)}, welcome to the FarmSoko menu. Select a option: \n1: Extenstion Services,\n2: Advisory Service,\n3: Search,\n4: My Account`);
+                    await fetchUpdateSession({ user: { id: user.id, name: user.name, phoneNumber: user.phone_number, location: `${user.district} District,${user.village} Village` } })
+                    menu.con(`Hello ${capitalizeFirstLetterOfAllWords(user.name)}, welcome to the FarmSoko menu. Select a option: \n1: Extension Services,\n2: Advisory Service,\n3: Search,\n4: My Account`);
                 }
             },
             next: {
@@ -174,23 +173,36 @@ app.post('/', async (request, response) => {
             next: {
                 1: async () => {
                     await fetchUpdateSession({ service: { request: 'Soil Testing' } })
-                    return 'extensionServices.confirm';
+                    return 'extensionServices.reason';
                 },
                 2: async () => {
                     await fetchUpdateSession({ service: { request: 'Ploughing' } })
-                    return 'extensionServices.confirm'
+                    return 'extensionServices.reason'
                 },
                 3: async () => {
                     await fetchUpdateSession({ service: { request: 'Ridging' } })
-                    return 'extensionServices.confirm'
+                    return 'extensionServices.reason'
                 },
                 4: async () => {
                     await fetchUpdateSession({ service: { request: 'Harrowing' } })
-                    return 'extensionServices.confirm'
+                    return 'extensionServices.reason'
                 },
                 5: async () => {
                     await fetchUpdateSession({ service: { request: 'Planting' } })
-                    return 'extensionServices.confirm'
+                    return 'extensionServices.reason'
+                },
+            },
+        });
+
+        menu.state('extensionServices.reason', {
+            run: async () => {
+                let session = await fetchGetSessionIfLive(args.sessionId);
+                menu.con(`EXTENSION SERVICE REQUEST\nName: ${session.user.name}\nRequest: ${session.service.request}\nEnter reason`);
+            },
+            next: {
+                '*\\w+': async () => {
+                    await fetchUpdateSession({ service: { reason: menu.val } })
+                    return 'extensionServices.confirm';
                 },
             },
         });
@@ -231,43 +243,56 @@ app.post('/', async (request, response) => {
             next: {
                 1: async () => {
                     await fetchUpdateSession({ service: { request: 'Beans' } })
-                    return 'advisoryServices.confirm';
+                    return 'advisoryServices.reason';
                 },
                 2: async () => {
                     await fetchUpdateSession({ service: { request: 'Cocoa' } })
-                    return 'advisoryServices.confirm'
+                    return 'advisoryServices.reason'
                 },
                 3: async () => {
                     await fetchUpdateSession({ service: { request: 'Coffee' } })
-                    return 'advisoryServices.confirm'
+                    return 'advisoryServices.reason'
                 },
                 4: async () => {
                     await fetchUpdateSession({ service: { request: 'Rice' } })
-                    return 'advisoryServices.confirm'
+                    return 'advisoryServices.reason'
                 },
                 5: async () => {
                     await fetchUpdateSession({ service: { request: 'Citrus' } })
-                    return 'advisoryServices.confirm'
+                    return 'advisoryServices.reason'
                 },
                 6: async () => {
                     await fetchUpdateSession({ service: { request: 'Dairy Cattle' } })
-                    return 'advisoryServices.confirm'
+                    return 'advisoryServices.reason'
                 },
                 7: async () => {
                     await fetchUpdateSession({ service: { request: 'Poultry' } })
-                    return 'advisoryServices.confirm'
+                    return 'advisoryServices.reason'
                 },
                 8: async () => {
                     await fetchUpdateSession({ service: { request: 'Fish Feeds' } })
-                    return 'advisoryServices.confirm'
+                    return 'advisoryServices.reason'
                 },
                 9: async () => {
                     await fetchUpdateSession({ service: { request: 'Apiary' } })
-                    return 'advisoryServices.confirm'
+                    return 'advisoryServices.reason'
                 },
                 10: async () => {
                     await fetchUpdateSession({ service: { request: 'Pigs' } })
-                    return 'advisoryServices.confirm'
+                    return 'advisoryServices.reason'
+                },
+            },
+        });
+
+        menu.state('advisoryServices.reason', {
+            run: async () => {
+                let session = await fetchGetSessionIfLive(args.sessionId);
+                menu.con(`ADVISORY SERVICE REQUEST\nName: ${session.user.name}\nRequest: ${session.service.request}\nEnter reason`);
+            },
+            next: {
+                '*\\w+': async () => {
+                    await fetchUpdateSession({ service: { reason: menu.val } })
+                    return 'advisoryServices.confirm';
                 },
             },
         });
@@ -347,7 +372,7 @@ app.post('/', async (request, response) => {
             },
             next: {
                 '*\\w+': async () => {
-                    await fetchUpdateSession({ service: { request: 'farmer_registration', form_data: { name: menu.val, phoneNumber: args.phoneNumber } } });
+                    await fetchUpdateSession({ service: { request: 'farmer_registration', form_data: { name: menu.val, phone_number: args.phoneNumber } } });
                     return 'registration.district';
                 },
             },
@@ -408,11 +433,77 @@ app.post('/', async (request, response) => {
         menu.state('registration.farm', {
             run: async () => {
                 let session = await fetchGetSessionIfLive(args.sessionId)
-                menu.con(`FARMER REGISTRATION\nSub-County: ${session.service.form_data.sub_county}\nVilage: ${session.service.form_data.village}\nPlease enter your farm eg (Maize, Bananas, Cattle )`)
+                menu.con(`FARMER REGISTRATION\nSub-County: ${session.service.form_data.sub_county}\nVilage: ${session.service.form_data.village}\nSelect what you farm \n1: Crop\n2: Livestock\n3: Mixed`)
             },
             next: {
-                '*\\w+': async () => {
-                    await fetchUpdateSession({ service: { form_data: { farm: menu.val } } });
+                1: async () => {
+                    await fetchUpdateSession({ service: { form_data: { farm: 'crops', crops: '', livestock: '' } } });
+                    return 'registration.farm.crop';
+                },
+                2: async () => {
+                    await fetchUpdateSession({ service: { form_data: { farm: 'livestock', crops: '', livestock: '' } } });
+                    return 'registration.farm.livestock';
+                },
+                3: async () => {
+                    await fetchUpdateSession({ service: { form_data: { farm: 'mixed', crops: '', livestock: '' } } });
+                    return 'registration.pin';
+                },
+            },
+        })
+
+        menu.state('registration.farm.crop', {
+            run: async () => {
+                let session = await fetchGetSessionIfLive(args.sessionId)
+                menu.con(`FARMER REGISTRATION\nSelect main crop\n1: Coffee\n2: Cassava\n3: Maize\n4: Bananas\n5: Cocoa`)
+            },
+            next: {
+                1: async () => {
+                    await fetchUpdateSession({ service: { form_data: { crops: 'Coffee' } } });
+                    return 'registration.pin';
+                },
+                2: async () => {
+                    await fetchUpdateSession({ service: { form_data: { crops: 'Cassava' } } });
+                    return 'registration.pin';
+                },
+                3: async () => {
+                    await fetchUpdateSession({ service: { form_data: { crops: 'Maize' } } });
+                    return 'registration.pin';
+                },
+                4: async () => {
+                    await fetchUpdateSession({ service: { form_data: { crops: 'Bananas' } } });
+                    return 'registration.pin';
+                },
+                5: async () => {
+                    await fetchUpdateSession({ service: { form_data: { crops: 'Cocoa' } } });
+                    return 'registration.pin';
+                },
+            },
+        })
+
+        menu.state('registration.farm.livestock', {
+            run: async () => {
+                let session = await fetchGetSessionIfLive(args.sessionId)
+                menu.con(`FARMER REGISTRATION\nSelect main livestock\n1: Beef Cattle\n2: Dairy Cattle\n3: Goats\n4: Poultry\n5: Piggery`)
+            },
+            next: {
+                1: async () => {
+                    await fetchUpdateSession({ service: { form_data: { livestock: 'Beef Cattle' } } });
+                    return 'registration.pin';
+                },
+                2: async () => {
+                    await fetchUpdateSession({ service: { form_data: { livestock: 'Dairy Cattle' } } });
+                    return 'registration.pin';
+                },
+                3: async () => {
+                    await fetchUpdateSession({ service: { form_data: { livestock: 'Goats' } } });
+                    return 'registration.pin';
+                },
+                4: async () => {
+                    await fetchUpdateSession({ service: { form_data: { livestock: 'Poultry' } } });
+                    return 'registration.pin';
+                },
+                5: async () => {
+                    await fetchUpdateSession({ service: { form_data: { crop: 'Piggery' } } });
                     return 'registration.pin';
                 },
             },
@@ -470,15 +561,16 @@ app.post('/', async (request, response) => {
 
 exports.ussd = functions.https.onRequest(app);
 
-exports.onCreateNewFarmer = functions.firestore.document('/users/user_id').onCreate(async (snap, context) => {
+exports.onCreateNewFarmer = functions.firestore.document('/users/{user_id}').onCreate(async (snap, context) => {
 
 });
 
-exports.onCreateNewRequest = functions.firestore.document('/requests/request_id').onCreate(async (snap, context) => {
+exports.onCreateNewRequest = functions.firestore.document('/requests/{request_id}').onCreate(async (snap, context) => {
+    const request = {id: snap.id, ...snap.data()}
     // TODO improvement required
     sheets.spreadsheets.values.append({
         spreadsheetId: serviceAccount.gsheet_id,
-        range: "requests",
+        range: "Requests",
         auth: new google.auth.JWT(
             serviceAccount.client_email,
             null,
@@ -487,7 +579,16 @@ exports.onCreateNewRequest = functions.firestore.document('/requests/request_id'
         ),
         key: serviceAccount.api_key,
         valueInputOption: 'RAW',
-        resource: { values: [] },
+        resource: { values: [[
+            request.id,
+            request.request_timestamp_millis, 
+            request.service.type, 
+            request.service.request, 
+            request.service.reason, 
+            request.state, 
+            request.user.name, 
+            request.user.phoneNumber, 
+            request.user.location]] },
     }, (err, result) => {
         if (err) {
             throw err;
