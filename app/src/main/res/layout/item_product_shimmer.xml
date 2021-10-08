@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center_vertical"
+      android:orientation="horizontal"
+      >
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+
+      <ImageView
+          android:id="@+id/image_view"
+          android:layout_width="180dp"
+          android:layout_height="120dp"
+          android:layout_marginBottom="@dimen/margin_s"
+          android:layout_marginEnd="@dimen/margin_m"
+          android:layout_marginStart="@dimen/margin_m"
+          android:layout_marginTop="@dimen/margin_s"
+          android:background="@color/shimmer_gray_dark"
+          />
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+      <TextView
+          android:id="@+id/text_view"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="@dimen/margin_s"
+          android:layout_marginEnd="@dimen/margin_m"
+          android:layout_marginStart="@dimen/margin_m"
+          android:layout_marginTop="@dimen/margin_s"
+          android:textSize="@dimen/text_s"
+          android:background="@color/shimmer_gray_dark"
+          />
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+  </LinearLayout>
+</layout>

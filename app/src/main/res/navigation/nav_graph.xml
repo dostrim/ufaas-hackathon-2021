@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+  <action
+      android:id="@+id/action_global_homeFragment"
+      app:destination="@+id/homeFragment"
+      app:popUpTo="@id/homeFragment"
+      app:popUpToInclusive="true"
+      app:enterAnim="@anim/fragment_close_enter" />
+
+  <fragment
+      android:id="@+id/homeFragment"
+      android:name="com.bebridge.android_template.fragment.HomeFragment"
+      android:label="HomeFragment"
+      tools:layout="@layout/fragment_home">
+    <action
+        android:id="@+id/action_homeFragment_to_detailFragment"
+        app:destination="@id/detailFragment" />
+    <action
+        android:id="@+id/action_homeFragment_to_onBoardingFragment"
+        app:destination="@id/onBoardingFragment"
+        app:popUpTo="@id/nav_graph"
+        app:popUpToInclusive="true" />
+    <action
+        android:id="@+id/action_homeFragment_to_signUpFragment"
+        app:destination="@id/signUpFragment" />
+  </fragment>
+  <fragment
+      android:id="@+id/myPageFragment"
+      android:name="com.bebridge.android_template.fragment.MyPageFragment"
+      android:label="MyPageFragment"
+      tools:layout="@layout/fragment_my_page">
+    <action
+        android:id="@+id/action_myPageFragment_to_menuFragment"
+        app:destination="@id/menuFragment" />
+  </fragment>
+  <fragment
+      android:id="@+id/detailFragment"
+      android:name="com.bebridge.android_template.fragment.DetailFragment"
+      android:label="DetailFragment"
+      tools:layout="@layout/fragment_detail">
+
+  </fragment>
+  <fragment
+      android:id="@+id/onBoardingFragment"
+      android:name="com.bebridge.android_template.fragment.OnBoardingFragment"
+      android:label="OnBoardingFragment"
+      tools:layout="@layout/fragment_on_boarding">
+
+    <action
+        android:id="@+id/action_onBoardingFragment_to_loginFragment"
+        app:destination="@id/loginFragment" />
+  </fragment>
+  <fragment
+      android:id="@+id/loginFragment"
+      android:name="com.bebridge.android_template.fragment.LoginFragment"
+      android:label="LoginFragment"
+      tools:layout="@layout/fragment_login">
+    <argument
+        android:name="hideLoginSkip"
+        android:defaultValue="false"
+        app:argType="boolean" />
+    <action
+        android:id="@+id/action_loginFragment_to_resetPasswordFragment"
+        app:destination="@id/confirmNumberFragment" />
+  </fragment>
+
+  <fragment
+      android:id="@+id/signUpFragment"
+      android:name="com.bebridge.android_template.fragment.SignUpFragment"
+      android:label="fragment_sign_up"
+      tools:layout="@layout/fragment_sign_up">
+    <action
+        android:id="@+id/action_signUpFragment_to_homeFragment"
+        app:destination="@id/homeFragment"
+        app:popUpTo="@id/homeFragment"
+        app:popUpToInclusive="true"
+        app:enterAnim="@anim/fragment_open_enter" />
+  </fragment>
+
+  <fragment
+      android:id="@+id/confirmNumberFragment"
+      android:name="com.bebridge.android_template.fragment.ConfirmNumberFragment"
+      android:label="fragment_confirm_number"
+      tools:layout="@layout/fragment_confirm_number">
+    <action
+        android:id="@+id/action_confirmNumberFragment_to_homeFragment"
+        app:destination="@id/homeFragment"
+        app:popUpTo="@id/homeFragment"
+        app:popUpToInclusive="false"
+        app:launchSingleTop="false" />
+  </fragment>
+
+  <fragment
+      android:id="@+id/menuFragment"
+      android:name="com.bebridge.android_template.fragment.MenuFragment"
+      android:label="MenuFragment"
+      tools:layout="@layout/fragment_menu">
+    <action
+        android:id="@+id/action_menuFragment_to_termsFragment"
+        app:destination="@id/termsFragment" />
+    <action
+        android:id="@+id/action_menuFragment_to_privacyFragment"
+        app:destination="@id/privacyFragment" />
+    <action
+        android:id="@+id/action_menuFragment_to_homeFragment"
+        app:destination="@id/homeFragment"
+        app:popUpTo="@id/homeFragment"
+        app:popUpToInclusive="true"
+        app:enterAnim="@anim/fragment_close_enter" />
+  </fragment>
+  <fragment
+      android:id="@+id/termsFragment"
+      android:name="com.bebridge.android_template.fragment.TermsFragment"
+      android:label="TermsFragment"
+      tools:layout="@layout/fragment_terms" />
+  <fragment
+      android:id="@+id/privacyFragment"
+      android:name="com.bebridge.android_template.fragment.PrivacyFragment"
+      android:label="PrivacyFragment"
+      tools:layout="@layout/fragment_privacy" />
+  <fragment
+      android:id="@+id/viewPagerFragment"
+      android:name="com.bebridge.android_template.fragment.ViewPagerFragment"
+      android:label="ViewPagerFragment">
+    <action
+        android:id="@+id/action_viewPagerFragment_to_detailFragment"
+        app:destination="@id/detailFragment" />
+  </fragment>
+
+</navigation>

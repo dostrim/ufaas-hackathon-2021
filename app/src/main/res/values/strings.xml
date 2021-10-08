@@ -1,0 +1,114 @@
+<resources>
+
+  <string name="facebook_app_id" translatable="false">XXXXXXXXXXXXXXX</string>
+  <string name="fb_login_protocol_scheme" translatable="false">fbXXXXXXXXXXXXXXX</string>
+  <string name="line_chanel_id" translatable="false">XXXXXXXXXX</string>
+
+  <string name="share_app_message">アプリ名: %1$s\nhttp://play.google.com/store/apps/details?id=%2$s</string>
+
+  <string name="error_response_no_internet">No Internet connection</string>
+
+  <string name="digest_auth_user">admin</string>
+  <string name="digest_auth_pass">kb9j2vyrhgit1nezb4rs</string>
+
+  <string name="terms_title">利用規約</string>
+  <string name="terms_url">ja/terms_of_service</string>
+  <string name="privacy_title">プライバシーポリシー</string>
+  <string name="privacy_url">ja/privacy</string>
+
+  <!-- login fragment -->
+  <string name="login_fragment_title">ログイン</string>
+  <string name="template_slogan"><![CDATA[template for Android]]></string>
+  <string name="create_account">新規アカウント作成</string>
+  <string name="login_with_google">Googleでログイン</string>
+  <string name="login_with_facebook">Facebookでログイン</string>
+  <string name="login_with_line">LINEでログイン</string>
+  <string name="login_with_apple">Appleでログイン</string>
+  <string name="login">LOGIN HERE</string>
+  <string name="email_login_password">パスワード</string>
+  <string name="email_login_forget_password"><u>パスワードお忘れ？</u></string>
+  <string name="email_login_email">メールアドレス</string>
+  <string name="email_userid_create_account"><u>新規アカウント作成</u></string>
+  <string name="skip_login"><u>スキップ</u></string>
+
+  <string name="login_email_error">正しいメールアドレスを入力してください。</string>
+
+  <!-- signUp fragment -->
+  <string name="sign_up_fragment_title">新規アカウント作成</string>
+
+  <string name="sign_up_user_name_error">ユーザーネームを入力してください</string>
+  <string name="sign_up_password_guideline">記号か数字を1つ以上含め、8文字以上の長さが必要です。</string>
+  <string name="sign_up_password_match_check">パスワードが一致しません</string>
+  <string name="sign_up_email_error">please enter valid email</string>
+
+  <string name="sign_up_user_name">ユーザーネーム</string>
+  <string name="sign_up_gender_hint">性別 (任意)</string>
+  <string name="sign_up_birthday_hint">Date of Birth</string>
+  <string name="sign_up_email">Email</string>
+  <string name="sign_up_password">パスワード</string>
+  <string name="sign_up_confirm_password">確認用パスワード</string>
+  <string name="done">Done</string>
+
+  <string name="gender_male">Male</string>
+  <string name="gender_female">Female</string>
+  <string name="gender_other">Others</string>
+
+  <!--onBoarding fragment -->
+  <string name="slide_skip"><u>スキップ</u></string>
+  <string name="finish">はじめる</string>
+  <string name="on_boarding_measure_title">PERSONAL ACCOUNT</string>
+  <string name="on_boarding_measure_description">Create Account &amp; Login </string>
+  <string name="on_boarding_record_title">DATA ANALYSIS</string>
+  <string name="on_boarding_record_description">Collect information about your firms</string>
+  <string name="on_boarding_manage_title">REMOTE MANAGEMENT</string>
+  <string name="on_boarding_manage_description">Know what to do next</string>
+
+  <!-- menu fragment-->
+  <string name="menu_title">メニュー</string>
+  <string name="menu_terms_of_use">利用規約</string>
+  <string name="menu_privacy_policy">プライバシーポリシー</string>
+  <string name="menu_change_password">パスワード変更</string>
+  <string name="menu_cancel_the_membership">退会する</string>
+  <string name="menu_operating_company">運営会社</string>
+  <string name="menu_share_app">Appを共有</string>
+  <string name="menu_logout">ログアウト</string>
+  <string name="menu_license">ライセンス</string>
+  <string name="menu_app_version">アプリバージョン</string>
+  <string name="menu_back">戻る</string>
+  <string name="operating_company">運営会社</string>
+
+  <string name="menu_logout_dialog_title">ログアウト</string>
+  <string name="menu_logout_dialog_message">ログアウトします。よろしいですか？</string>
+  <string name="menu_logout_dialog_positive">OK</string>
+  <string name="menu_logout_dialog_negative">キャンセル</string>
+
+  <!-- change password fragment -->
+  <string name="change_password_title">パスワード変更</string>
+  <string name="change_password_message">新しいパスワードを入力してください</string>
+  <string name="change_password_password">新しいパスワード</string>
+  <string name="change_password_confirm_password">確認用パスワード</string>
+  <string name="change_password_password_guideline">記号か数字を1つ以上含め、8文字以上の長さが必要です。</string>
+  <string name="change_password_password_match_check">パスワードが一致しません</string>
+  <string name="change_password_register">再設定する</string>
+  <string name="change_password_completed">パスワードを変更しました</string>
+
+  <!-- reset password fragment -->
+  <string name="reset_password_title">パスワードをお忘れですか？</string>
+  <string name="reset_password_message">Please enter the sent code to confirm the phone number</string>
+  <string name="reset_password_button">Confirm Number</string>
+  <string name="reset_password_email_sent_explanation">%s 宛に認証メールを送りました。認証後に全ての機能を利用することが出来ます。</string>
+  <string name="reset_password_next_button">完了</string>
+
+
+  <!--  Login Dialog-->
+  <string name="sign_up">新規アカウント作成</string>
+  <string name="explanation">アカウントを作成することで記録することができます。</string>
+  <string name="measure_record">健康状態を記録する</string>
+
+  <!-- edit profile fragment -->
+  <string name="edit_profile_fragment_title">プロフィール編集</string>
+  <string name="edit_profile_update_photo">プロフィール写真を変更</string>
+  <string name="edit_profile_save">保存</string>
+  <string name="edit_profile_successful">更新しました</string>
+
+</resources>

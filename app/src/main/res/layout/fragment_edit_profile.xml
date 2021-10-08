@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.bebridge.android_template.fragment.SignUpFragment">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.bebridge.android_template.viewModel.EditProfileViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/my_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_alignParentTop="true" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="@string/edit_profile_fragment_title"
+                android:textAllCaps="true"
+                android:textSize="@dimen/text_s"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/margin_l"
+                android:padding="@dimen/margin_m"
+                android:tint="?attr/colorControlNormal"
+                android:src="@drawable/icon_chevron_left_light" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/toolbar_layout">
+
+            <ScrollView
+                android:id="@+id/scroll_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    tools:visibility="visible">
+
+
+                    <RelativeLayout
+                        android:id="@+id/photo_layout"
+                        android:layout_width="@dimen/profile_photo"
+                        android:layout_height="@dimen/profile_photo"
+                        android:layout_margin="@dimen/margin_l">
+
+                        <ImageView
+                            android:id="@+id/user_photo"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/margin_s"
+                            android:layout_marginBottom="@dimen/margin_s"
+                            android:padding="1dp"
+                            app:profile_url="@{viewModel.user.photo}" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/update_photo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/edit_profile_update_photo"
+                        android:textColor="@color/colorPrimary" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/margin_l"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_s"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/margin_l"
+                                android:layout_marginRight="@dimen/margin_l"
+                                android:layout_marginBottom="@dimen/margin_s"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:hintTextAppearance="@style/TextLabel"
+                                        app:passwordToggleEnabled="true">
+
+                                        <com.google.android.material.textfield.TextInputEditText
+                                            android:id="@+id/surname_name"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:afterTextChanged="@{viewModel::userNameTextChanged}"
+                                            android:hint="@string/sign_up_user_name"
+                                            android:inputType="text"
+                                            android:text="@={viewModel.user.userName}"
+                                            android:textSize="@dimen/text_s" />
+
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+                                </RelativeLayout>
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/sign_up_user_name_error"
+                                    android:textColor="@color/error"
+                                    android:textSize="@dimen/text_sss"
+                                    android:visibility="@{viewModel.userNameValidationResult == 1 ? View.VISIBLE : View.GONE}" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/margin_l"
+                            android:layout_marginRight="@dimen/margin_l"
+                            android:layout_marginBottom="@dimen/margin_s"
+                            android:orientation="vertical">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/margin_m"
+                                    android:onClick="@{viewModel::genderEditTextClicked}">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/gender_edit_text"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hint="@string/sign_up_gender_hint"
+                                        android:inputType="none"
+                                        android:maxLines="1"
+                                        android:onClick="@{viewModel::genderEditTextClicked}"
+                                        android:text="@={viewModel.genderText}"
+                                        android:textSize="@dimen/text_s" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/margin_l"
+                            android:layout_marginRight="@dimen/margin_l"
+                            android:layout_marginBottom="@dimen/margin_s"
+                            android:orientation="vertical">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/margin_m"
+                                    android:onClick="@{viewModel::birthdayEditTextClicked}">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/birthday_edit_text"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hint="@string/sign_up_birthday_hint"
+                                        android:inputType="none"
+                                        android:maxLines="1"
+                                        android:onClick="@{viewModel::birthdayEditTextClicked}"
+                                        android:text="@={viewModel.user.birthday}"
+                                        android:textSize="@dimen/text_s" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_l"
+                            android:layout_marginRight="@dimen/margin_l"
+                            android:layout_marginBottom="@dimen/margin_s"
+                            android:orientation="vertical">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/margin_m"
+                                    app:passwordToggleEnabled="true">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:enabled="false"
+                                        android:hint="@string/sign_up_email"
+                                        android:inputType="textEmailAddress"
+                                        android:text="@={viewModel.user.email}"
+                                        android:textSize="@dimen/text_s"
+                                        app:hintTextAppearance="@style/TextLabel" />
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+
+
+
+                    </LinearLayout>
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_l"
+                        android:layout_marginTop="@dimen/margin_m"
+                        android:layout_marginEnd="@dimen/margin_l"
+                        android:layout_marginBottom="@dimen/margin_l"
+                        android:background="@{((viewModel.userNameValidationResult + viewModel.genderValidationResult + viewModel.birthdayValidationResult) != 6) || viewModel.loading ? @drawable/button_rounded_rectangle_gray : @drawable/button_rounded_rectangle}"
+                        android:enabled="@{((viewModel.userNameValidationResult + viewModel.genderValidationResult + viewModel.birthdayValidationResult) != 6) || viewModel.loading ? false : true}"
+                        android:onClick="@{viewModel::saveButtonClicked}"
+                        android:text="@string/edit_profile_save"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_m" />
+
+                </LinearLayout>
+
+            </ScrollView>
+
+        </RelativeLayout>
+
+        <ProgressBar
+            android:layout_width="@dimen/progress_bar"
+            android:layout_height="@dimen/progress_bar"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="@{viewModel.loading ? View.VISIBLE : View.GONE}"
+            />
+
+    </RelativeLayout>
+</layout>

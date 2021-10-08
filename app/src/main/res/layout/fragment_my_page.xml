@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+  <data>
+
+    <import type="android.view.View" />
+
+    <variable
+        name="viewModel"
+        type="com.bebridge.android_template.viewModel.MyPageViewModel" />
+  </data>
+
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical"
+      >
+
+    <RelativeLayout
+        android:id="@+id/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        >
+
+      <androidx.appcompat.widget.Toolbar
+          android:id="@+id/my_toolbar"
+          android:layout_width="match_parent"
+          android:layout_height="?attr/actionBarSize"
+          android:layout_alignParentTop="true"
+          />
+
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerHorizontal="true"
+          android:layout_centerVertical="true"
+          android:text="MY PAGE"
+          android:textSize="@dimen/text_s"
+          android:textStyle="bold"
+          />
+
+      <ImageView
+          android:id="@+id/open_menu"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentEnd="true"
+          android:layout_centerVertical="true"
+          android:layout_gravity="center"
+          android:padding="16dp"
+          android:tint="?attr/colorControlNormal"
+          android:src="@drawable/icon_bars_20" />
+    </RelativeLayout>
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:visibility="@{viewModel.isLoggedIn ? View.VISIBLE : View.GONE}"
+          android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/photo_layout"
+            android:layout_width="@dimen/profile_photo"
+            android:layout_height="@dimen/profile_photo"
+            android:layout_margin="@dimen/margin_l">
+
+          <ImageView
+              android:id="@+id/user_photo"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_marginTop="@dimen/margin_s"
+              android:layout_marginBottom="@dimen/margin_s"
+              android:padding="1dp"
+              app:profile_url="@{viewModel.user.photo}" />
+
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_l"
+            android:orientation="horizontal">
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="user_name:"
+              />
+          <TextView
+              android:layout_width="0dp" android:layout_weight="1"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="@dimen/margin_l"
+              android:text="@{viewModel.user.userName}"
+              />
+          <Button
+              android:id="@+id/profile_edit"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="@dimen/margin_l"
+              android:text="編集"
+            />
+        </LinearLayout>
+      </LinearLayout>
+
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:visibility="@{viewModel.isLoggedIn ? View.GONE : View.VISIBLE}"
+          tools:visibility="visible"
+          android:clickable="true"
+          android:focusable="true">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_ll"
+            android:layout_centerInParent="true"
+            app:cardCornerRadius="@dimen/margin_m"
+            tools:visibility="visible">
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_margin="@dimen/margin_ll"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_logo"
+                android:src="@drawable/image_logo" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/template_slogan"
+                android:layout_marginTop="@dimen/margin_l"
+                android:gravity="center_horizontal"
+                android:textSize="@dimen/text_l"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_ll"
+                android:layout_marginStart="@dimen/margin_l"
+                android:layout_marginEnd="@dimen/margin_l"
+                android:text="@string/explanation"
+                android:textSize="@dimen/text_s" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margin_ll"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+              <androidx.appcompat.widget.AppCompatTextView
+                  android:id="@+id/sign_up_btn"
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_marginEnd="@dimen/margin_m"
+                  android:layout_weight="1"
+                  android:background="@drawable/button_rounded_rectangle_unfilled"
+                  android:gravity="center_horizontal"
+                  android:maxLines="1"
+                  android:paddingStart="@dimen/margin_s"
+                  android:paddingTop="@dimen/margin_ml"
+                  android:paddingEnd="@dimen/margin_s"
+                  android:paddingBottom="@dimen/margin_ml"
+                  android:text="@string/sign_up"
+                  android:textSize="@dimen/text_s"
+                  app:autoSizeMaxTextSize="@dimen/text_s"
+                  app:autoSizeMinTextSize="@dimen/text_sss"
+                  app:autoSizeTextType="uniform" />
+
+              <androidx.appcompat.widget.AppCompatTextView
+                  android:id="@+id/log_in_btn"
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_marginStart="@dimen/margin_m"
+                  android:layout_weight="1"
+                  android:background="@drawable/button_rounded_rectangle"
+                  android:gravity="center_horizontal"
+                  android:paddingStart="@dimen/margin_s"
+                  android:paddingTop="@dimen/margin_ml"
+                  android:paddingEnd="@dimen/margin_s"
+                  android:paddingBottom="@dimen/margin_ml"
+                  android:text="@string/login"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/text_s"
+                  android:textStyle="bold"
+                  app:autoSizeMaxTextSize="@dimen/text_s"
+                  app:autoSizeMinTextSize="@dimen/text_sss"
+                  app:autoSizeTextType="uniform" />
+
+            </LinearLayout>
+
+          </LinearLayout>
+        </androidx.cardview.widget.CardView>
+      </RelativeLayout>
+    </FrameLayout>
+
+  </LinearLayout>
+</layout>

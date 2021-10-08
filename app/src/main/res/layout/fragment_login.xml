@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.bebridge.android_template.fragment.LoginFragment"
+    >
+
+  <data>
+
+    <import type="android.view.View" />
+
+    <variable
+        name="viewModel"
+        type="com.bebridge.android_template.viewModel.LoginViewModel"
+        />
+  </data>
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      >
+
+    <RelativeLayout
+        android:id="@+id/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        >
+
+      <androidx.appcompat.widget.Toolbar
+          android:id="@+id/my_toolbar"
+          android:layout_width="match_parent"
+          android:layout_height="?attr/actionBarSize"
+          android:layout_alignParentTop="true"
+          />
+
+      <RelativeLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentRight="true"
+          android:layout_centerVertical="true"
+          android:layout_marginRight="@dimen/margin_l"
+          >
+
+        <ImageView
+            android:id="@+id/language_glob"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_s"
+            android:src="@drawable/icn_globe"
+            />
+
+        <TextView
+            android:id="@+id/language_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/language_glob"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="en"
+            android:textSize="@dimen/text_sss"
+            android:textStyle="bold"
+            />
+
+
+      </RelativeLayout>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        >
+      <RelativeLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          >
+
+        <LinearLayout
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            >
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="@dimen/margin_l"
+              android:layout_marginLeft="@dimen/margin_l"
+              android:layout_marginRight="@dimen/margin_l"
+              android:layout_marginTop="@dimen/margin_m"
+              android:orientation="vertical"
+              >
+
+            <ImageView
+                android:layout_width="185dp"
+                android:layout_height="213dp"
+                android:layout_marginTop="@dimen/margin_s"
+                android:src="@drawable/icon"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_m"
+                android:text="Proceed With Your"
+                android:textAlignment="center"
+                android:textSize="@dimen/text_l"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_ll"
+                android:layout_marginTop="@dimen/margin_m"
+                android:text="Login"
+                android:textAlignment="center"
+                android:textColor="@color/apple_black"
+                android:textSize="@dimen/text_l"
+                android:textStyle="bold"
+                />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_lll"
+                android:layout_marginRight="@dimen/margin_lll"
+                android:text="Kindly note that we will send you an SMS to verify your phone number"
+                android:textAlignment="center"
+                android:textSize="@dimen/text_ss"
+                />
+          </LinearLayout>
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="@dimen/margin_l"
+              android:layout_marginLeft="@dimen/margin_l"
+              android:layout_marginRight="@dimen/margin_l"
+              android:orientation="vertical"
+              >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+              <TextView
+                  android:id="@+id/country_code"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginEnd="@dimen/margin_l"
+                  android:text="+256"
+                  android:textSize="@dimen/text_l"
+                  />
+
+              <EditText
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:afterTextChanged="@{viewModel::phoneNumberTextChanged}"
+                  android:hint="phone number"
+                  android:inputType="number"
+                  android:text="@={viewModel.email}"
+                  android:textSize="@dimen/text_l"
+                  />
+
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="The phone number you entered is invalid"
+                android:textColor="@color/error"
+                android:textSize="@dimen/text_sss"
+                android:visibility="@{viewModel.phoneNumberValidationResult == 1 ? View.VISIBLE : View.GONE}"
+                />
+
+          </LinearLayout>
+
+          <TextView
+              android:id="@+id/sign_up"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="@dimen/margin_lll"
+              android:padding="@dimen/margin_m"
+              android:text="Carrier SMS charges may apply"
+              android:textAlignment="center"
+              android:textSize="@dimen/text_ss"
+              />
+
+        </LinearLayout>
+      </RelativeLayout>
+
+    </ScrollView>
+
+    <ProgressBar
+        android:layout_width="@dimen/progress_bar"
+        android:layout_height="@dimen/progress_bar"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="@{viewModel.loading ? View.VISIBLE : View.GONE}"
+        />
+
+    <Button
+        android:id="@+id/login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/margin_l"
+        android:layout_marginEnd="@dimen/margin_l"
+        android:layout_marginStart="@dimen/margin_l"
+        android:layout_marginTop="@dimen/margin_l"
+        android:background="@{viewModel.phoneNumberValidationResult != 2 || viewModel.loading ? @drawable/button_rounded_rectangle_gray : @drawable/button_rounded_rectangle}"
+        android:enabled="@{viewModel.phoneNumberValidationResult != 2 || viewModel.loading ? false : true}"
+        android:onClick="@{viewModel::logInButtonClicked}"
+        android:text="NEXT"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_m"
+        />
+
+  </RelativeLayout>
+
+
+</layout>

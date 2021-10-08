@@ -1,0 +1,119 @@
+{
+  "project_info": {
+    "project_number": "421224349289",
+    "firebase_url": "https://android-template-fc6f0.firebaseio.com",
+    "project_id": "android-template-fc6f0",
+    "storage_bucket": "android-template-fc6f0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:421224349289:android:7a46f88d494a6558622cf8",
+        "android_client_info": {
+          "package_name": "com.bebridge.android_template"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "421224349289-kd41ghk4p1n2hq9qnpq71jn9oq3t1nk3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKP8-V_Q1GhkhT2dOjrJDCRFOgoZwkiic"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "421224349289-fmkt74tji644ks3h845j2jjlamjnb416.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "421224349289-8a76oitedv7iu9gieqfsd5m6tecu55m3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bebridge.ios-template"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:421224349289:android:22360858e16a08f4622cf8",
+        "android_client_info": {
+          "package_name": "com.bebridge.android_template.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "421224349289-kd41ghk4p1n2hq9qnpq71jn9oq3t1nk3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKP8-V_Q1GhkhT2dOjrJDCRFOgoZwkiic"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "421224349289-fmkt74tji644ks3h845j2jjlamjnb416.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "421224349289-8a76oitedv7iu9gieqfsd5m6tecu55m3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bebridge.ios-template"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:421224349289:android:100c21af217d82af622cf8",
+        "android_client_info": {
+          "package_name": "com.bebridge.android_template.staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "421224349289-kd41ghk4p1n2hq9qnpq71jn9oq3t1nk3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKP8-V_Q1GhkhT2dOjrJDCRFOgoZwkiic"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "421224349289-fmkt74tji644ks3h845j2jjlamjnb416.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "421224349289-8a76oitedv7iu9gieqfsd5m6tecu55m3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bebridge.ios-template"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

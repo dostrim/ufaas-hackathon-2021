@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable/button_rounded_rectangle_facebook.xml" value="0.22314814814814815" />
+        <entry key="app/src/main/res/drawable/button_rounded_rectangle_google.xml" value="0.2171875" />
+        <entry key="app/src/main/res/drawable/splash_background.xml" value="0.2171875" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.223731884057971" />
+        <entry key="app/src/main/res/layout/fragment_change_password.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/fragment_confirm_number.xml" value="0.20104166666666667" />
+        <entry key="app/src/main/res/layout/fragment_detail.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/fragment_edit_profile.xml" value="0.12" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_on_boarding.xml" value="0.20104166666666667" />
+        <entry key="app/src/main/res/layout/fragment_reset_password.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_sign_up.xml" value="0.36041666666666666" />
+        <entry key="app/src/main/res/layout/image_slide_layout.xml" value="0.36041666666666666" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

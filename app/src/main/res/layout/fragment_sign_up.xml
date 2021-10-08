@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.bebridge.android_template.fragment.SignUpFragment"
+    >
+
+  <data>
+
+    <import type="android.view.View" />
+
+    <variable
+        name="viewModel"
+        type="com.bebridge.android_template.viewModel.SignUpViewModel"
+        />
+  </data>
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical"
+      >
+
+    <RelativeLayout
+        android:id="@+id/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        >
+
+      <androidx.appcompat.widget.Toolbar
+          android:id="@+id/my_toolbar"
+          android:layout_width="match_parent"
+          android:layout_height="?attr/actionBarSize"
+          android:layout_alignParentTop="true"
+          />
+
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerInParent="true"
+          android:text="Complete Registration"
+          android:textAllCaps="true"
+          android:textSize="@dimen/text_s"
+          android:textStyle="bold"
+          />
+
+      <ImageView
+          android:id="@+id/back_button"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentStart="true"
+          android:layout_centerVertical="true"
+          android:layout_marginStart="@dimen/margin_l"
+          android:padding="@dimen/margin_m"
+          android:src="@drawable/icon_chevron_left_light"
+          android:visibility="gone"
+          app:tint="?attr/colorControlNormal"
+          />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar_layout"
+        >
+
+      <ScrollView
+          android:id="@+id/scroll_view"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            tools:visibility="visible"
+            >
+
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="@dimen/margin_l"
+              android:layout_marginLeft="@dimen/margin_l"
+              android:layout_marginRight="@dimen/margin_l"
+              android:layout_marginTop="@dimen/margin_m"
+              android:orientation="vertical"
+              >
+
+            <ImageView
+                android:layout_width="185dp"
+                android:layout_height="213dp"
+                android:layout_marginTop="@dimen/margin_s"
+                android:src="@drawable/icon"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_m"
+                android:text="Proceed With Your"
+                android:textAlignment="center"
+                android:textSize="@dimen/text_l"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_m"
+                android:layout_marginTop="@dimen/margin_m"
+                android:text="Completing Your Profile"
+                android:textAlignment="center"
+                android:textColor="@color/apple_black"
+                android:textSize="@dimen/text_l"
+                android:textStyle="bold"
+                />
+
+          </LinearLayout>
+
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_horizontal"
+              android:orientation="vertical"
+              >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_s"
+                android:orientation="horizontal"
+                >
+
+              <LinearLayout
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="@dimen/margin_s"
+                  android:layout_marginLeft="@dimen/margin_l"
+                  android:layout_marginRight="@dimen/margin_l"
+                  android:layout_weight="1"
+                  android:orientation="vertical"
+                  >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                  <com.google.android.material.textfield.TextInputLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      app:hintTextAppearance="@style/TextLabel"
+                      app:passwordToggleEnabled="true"
+                      >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/surname_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:afterTextChanged="@{viewModel::userNameTextChanged}"
+                        android:hint="Enter Your Name "
+                        android:inputType="text"
+                        android:text="@={viewModel.userName}"
+                        android:textSize="@dimen/text_s"
+                        />
+
+                  </com.google.android.material.textfield.TextInputLayout>
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Name can't be blank"
+                    android:textColor="@color/error"
+                    android:textSize="@dimen/text_sss"
+                    android:visibility="@{viewModel.userNameValidationResult == 1 ? View.VISIBLE : View.GONE}"
+                    />
+
+              </LinearLayout>
+
+            </LinearLayout>
+
+          </LinearLayout>
+
+          <Button
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="@dimen/margin_l"
+              android:layout_marginEnd="@dimen/margin_l"
+              android:layout_marginStart="@dimen/margin_l"
+              android:layout_marginTop="@dimen/margin_m"
+              android:background="@{viewModel.userNameValidationResult != 2 || viewModel.loading ? @drawable/button_rounded_rectangle_gray : @drawable/button_rounded_rectangle}"
+              android:enabled="@{viewModel.userNameValidationResult != 2 || viewModel.loading ? false : true}"
+              android:onClick="@{viewModel::signUpButtonClicked}"
+              android:text="@string/done"
+              android:textAllCaps="true"
+              android:textColor="@color/white"
+              android:textSize="@dimen/text_m"
+              />
+
+        </LinearLayout>
+
+      </ScrollView>
+
+    </RelativeLayout>
+
+    <ProgressBar
+        android:layout_width="@dimen/progress_bar"
+        android:layout_height="@dimen/progress_bar"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="@{viewModel.loading ? View.VISIBLE : View.GONE}"
+        />
+
+  </RelativeLayout>
+</layout>
