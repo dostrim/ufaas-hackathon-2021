@@ -1,6 +1,7 @@
 package com.afrosoft.csadatacenter.ui.home
 
 import android.Manifest
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
@@ -43,6 +44,7 @@ import com.google.android.gms.location.LocationServices
 import org.json.JSONException
 import org.json.JSONObject
 import java.text.DecimalFormat
+import java.util.*
 
 class HomeFragment : Fragment() {
 
@@ -110,6 +112,8 @@ class HomeFragment : Fragment() {
         binding.addInterest.setOnClickListener {
             startActivity(Intent(requireActivity(), InterestsActivity::class.java))
         }
+
+        getCurrentLocation()
 
 
     }
@@ -180,8 +184,19 @@ class HomeFragment : Fragment() {
             .setCancelable(false)
             .create()
 
-        bindingD.submit.setOnClickListener {
+        val calender = Calendar.getInstance(Locale.getDefault())
+        bindingD.plantingDate.setOnClickListener {
+            DatePickerDialog(
+                requireActivity(), { view, year, month, dayOfMonth ->
+                    bindingD.plantingDate.setText("$year-${month.plus(1)}-$dayOfMonth")
+                }, calender.get(Calendar.YEAR), calender.get(Calendar.MONTH),
+                calender.get(Calendar.DAY_OF_MONTH)
+            ).show()
+        }
 
+
+        bindingD.submit.setOnClickListener {
+            bindingD.submit.text = "Please wait..."
             AndroidNetworking.post("https://lyk.rkl.mybluehost.me/agro_aid/api/update_farmers_plants_plantingdate.php")
                 .addBodyParameter("planting_date", bindingD.plantingDate.text.toString())
                 .addBodyParameter("plant_id", interest?.id)
@@ -190,10 +205,14 @@ class HomeFragment : Fragment() {
                 .getAsString(object : StringRequestListener {
                     override fun onResponse(response: String?) {
 
+
+                        bindingD.submit.text = "Submit"
+
                         val nrf = Gson().fromJson(response, UserResponse::class.java)
                         if (nrf.status_code == 200) {
                             //action
                             getHomeData()
+                            dialog.dismiss()
                         }
 
                         Toast.makeText(requireContext(), nrf.status_message, Toast.LENGTH_SHORT)
@@ -203,7 +222,8 @@ class HomeFragment : Fragment() {
                     }
 
                     override fun onError(anError: ANError?) {
-                        Toast.makeText(requireContext(), "No Internet", Toast.LENGTH_SHORT).show()
+                        bindingD.submit.text = "Submit"
+                        Toast.makeText(requireContext(), "Connection Failed", Toast.LENGTH_SHORT).show()
                         dialog.dismiss()
                     }
                 })
@@ -337,6 +357,7 @@ class HomeFragment : Fragment() {
 
     private fun fetchWeatherUpdates(latitude: Double, longitude: Double) {
 
+        Log.d("TAG-coo", "fetchWeatherUpdates: $latitude - $longitude")
         AndroidNetworking.get("$SingleDayWeatherApi?lat=$latitude&lon=$longitude&appid=$weatherApiKey")
             .build()
             .getAsString(object : StringRequestListener {

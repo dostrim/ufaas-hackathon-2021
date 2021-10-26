@@ -9,6 +9,7 @@ import androidx.work.WorkManager
 import com.afrosoft.csadatacenter.tasks.PlantsDataFetcher
 import com.afrosoft.csadatacenter.ui.AppPreferences
 import com.afrosoft.csadatacenter.ui.access.LoginActivity
+import com.google.android.gms.security.ProviderInstaller
 import java.util.*
 import kotlin.concurrent.schedule
 
@@ -22,6 +23,9 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+
+        /*required to support android apis 4.4 and below*/
+        ProviderInstaller.installIfNeeded(applicationContext)
 
 
         Timer("GoToWelcomeScreen", false).schedule(3000) {
