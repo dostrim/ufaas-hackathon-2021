@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Balintuma/AndroidStudioProjects/AgroAidApp/app/src/main/res/layout/single_forum_layout.xml" value="0.33" />
         <entry key="..\:/Users/Balintuma/AndroidStudioProjects/CSADataCenter/app/src/main/res/drawable/black_border_bg.xml" value="0.240625" />
         <entry key="..\:/Users/Balintuma/AndroidStudioProjects/CSADataCenter/app/src/main/res/drawable/black_filled_bg.xml" value="0.240625" />
         <entry key="..\:/Users/Balintuma/AndroidStudioProjects/CSADataCenter/app/src/main/res/drawable/border_bg.xml" value="0.240625" />
@@ -34,7 +35,6 @@
         <entry key="..\:/Users/MATOVUJOSEPH/StudioProjects/AgroAidApp/app/src/main/res/layout/activity_register.xml" value="0.22" />
         <entry key="..\:/Users/MATOVUJOSEPH/StudioProjects/AgroAidApp/app/src/main/res/layout/activity_splash.xml" value="0.209375" />
         <entry key="..\:/Users/MATOVUJOSEPH/StudioProjects/AgroAidApp/app/src/main/res/layout/dialog_filter_interest.xml" value="0.25" />
-        <entry key="..\:/Users/MATOVUJOSEPH/StudioProjects/AgroAidApp/app/src/main/res/layout/dialog_planting_date.xml" value="0.25" />
         <entry key="..\:/Users/MATOVUJOSEPH/StudioProjects/AgroAidApp/app/src/main/res/layout/fragment_home.xml" value="0.209375" />
         <entry key="..\:/Users/MATOVUJOSEPH/StudioProjects/AgroAidApp/app/src/main/res/layout/single_interest.xml" value="0.209375" />
         <entry key="..\:/Users/MATOVUJOSEPH/StudioProjects/AgroAidApp/app/src/main/res/layout/single_interest_layout.xml" value="0.209375" />

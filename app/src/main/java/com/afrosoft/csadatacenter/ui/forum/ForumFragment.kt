@@ -1,16 +1,24 @@
 package com.afrosoft.csadatacenter.ui.forum
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.afrosoft.csadatacenter.databinding.FragmentForumBinding
 import com.afrosoft.csadatacenter.ui.AppPreferences
 import com.afrosoft.csadatacenter.ui.home.FarmerInterestsAdapter
+import com.androidnetworking.AndroidNetworking
+import com.androidnetworking.error.ANError
+import com.androidnetworking.interfaces.StringRequestListener
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 class ForumFragment : Fragment() {
 
+    private lateinit var adapter: ForumAdapter
     lateinit var binding: FragmentForumBinding
 
     override fun onCreateView(
@@ -29,8 +37,28 @@ class ForumFragment : Fragment() {
             AppPreferences(requireActivity()).getFarmerInterests()
         ){}
 
-        binding.forumRv.adapter = ForumAdapter(requireActivity(), mutableListOf(
-            Forum(),Forum(),Forum(),Forum(),Forum(),Forum(),Forum(),Forum(),Forum()
-        ))
+        adapter = ForumAdapter(requireActivity(), mutableListOf())
+        binding.forumRv.adapter = adapter
+
+        fetchForum()
     }
+    
+    
+    private fun fetchForum() {
+        AndroidNetworking.post("https://lyk.rkl.mybluehost.me/agro_aid/api/get_forum.php")
+                .build()
+                .getAsString(object : StringRequestListener {
+                    override fun onResponse(response: String?) {
+                        Log.e(">>>","::${response}")
+    
+                        val list: MutableList<Forum> = Gson().fromJson(response, object : TypeToken<List<Forum?>?>() {}.type)
+                        adapter.changeList(list)
+                    }
+    
+                    override fun onError(anError: ANError?) {
+                        Toast.makeText(requireContext(),"No Internet Connection",Toast.LENGTH_LONG).show()
+                    }
+                } )
+            }
+    
 }

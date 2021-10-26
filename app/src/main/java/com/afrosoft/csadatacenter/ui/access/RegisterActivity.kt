@@ -1,5 +1,6 @@
 package com.afrosoft.csadatacenter.ui.access
 
+import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,13 +15,18 @@ import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.StringRequestListener
 import com.google.gson.Gson
+import dmax.dialog.SpotsDialog
 
 class RegisterActivity : AppCompatActivity() {
+    private var spotDialog: AlertDialog? = null
     private lateinit var appPreferences: AppPreferences
     lateinit var binding: ActivityRegisterBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        spotDialog = SpotsDialog.Builder().setContext(this).build()
+
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -42,7 +48,8 @@ class RegisterActivity : AppCompatActivity() {
                 Toast.makeText(this, "Password doesn't match", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            
+
+            spotDialog?.show()
             AndroidNetworking.post("https://lyk.rkl.mybluehost.me/agro_aid/api/sign_up.php")
                         .addBodyParameter("first_name",binding.firstName.text.toString())
                         .addBodyParameter("last_name",binding.lastName.text.toString())
@@ -53,6 +60,7 @@ class RegisterActivity : AppCompatActivity() {
                         .getAsString(object : StringRequestListener {
                             override fun onResponse(response: String?) {
 
+                                spotDialog?.dismiss()
                                 val nrf = Gson().fromJson(response, UserResponse::class.java)
                                 if (nrf.status_code == 200){
                                     //action
@@ -63,11 +71,11 @@ class RegisterActivity : AppCompatActivity() {
 
                                 Toast.makeText(this@RegisterActivity, nrf.status_message, Toast.LENGTH_SHORT).show()
 
-
                             }
             
                             override fun onError(anError: ANError?) {
-                                Toast.makeText(this@RegisterActivity, "No Internet", Toast.LENGTH_SHORT).show()
+                                spotDialog?.dismiss()
+                                Toast.makeText(this@RegisterActivity, "No Internet Connection", Toast.LENGTH_SHORT).show()
                             }
                         })
             
