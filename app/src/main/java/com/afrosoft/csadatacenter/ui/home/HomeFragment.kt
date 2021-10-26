@@ -84,15 +84,15 @@ class HomeFragment : Fragment() {
             requireActivity(),
             AppPreferences(requireActivity()).getFarmerInterests()
         ) {
-            binding.pestsTitle.text = "Likely Pest attacks for ${it?.plant_name}"
-            binding.diseasesTitle.text = "Likely Disease attacks for ${it?.plant_name}"
-
             interest = it
 
-            getHomeData()
-
-            getCloseMarketPrice()
         }
+
+        /*default plant selection*/
+        if (AppPreferences(requireActivity()).getFarmerInterests().isNotEmpty()){
+            interest = AppPreferences(requireActivity()).getFarmerInterests()[0]
+        }
+
 
         /*disease adapter instance*/
 
@@ -115,7 +115,16 @@ class HomeFragment : Fragment() {
 
         getCurrentLocation()
 
+        setPlantInterestData(interest)
 
+
+    }
+
+    private fun setPlantInterestData(interest: Interest?) {
+        binding.pestsTitle.text = "Likely Pest attacks for ${interest?.plant_name}"
+        binding.diseasesTitle.text = "Likely Disease attacks for ${interest?.plant_name}"
+        getHomeData()
+        getCloseMarketPrice()
     }
 
     private fun getCloseMarketPrice() {

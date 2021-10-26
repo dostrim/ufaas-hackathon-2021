@@ -32,6 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layout_gravity="center"
                 android:padding="10dp"
                 app:layout_collapseMode="parallax">
 
@@ -47,7 +48,7 @@
                     android:padding="8dp"
                     android:text="Kampala, Uganda "
                     android:textColor="@color/white"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     app:drawableStartCompat="@drawable/ic_baseline_place_24" />
 
                 <View
@@ -68,8 +69,8 @@
 
                         <ImageView
                             android:id="@+id/icon"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
                             android:src="@drawable/icons8_rain_100"
                             app:tint="@color/white" />
 
@@ -154,7 +155,6 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:id="@+id/container_crop_data"
                 android:orientation="vertical"
                 android:padding="8dp">
@@ -368,6 +368,7 @@
                     android:orientation="horizontal">
 
                     <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/best_practice_card"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="8dp"
@@ -382,15 +383,17 @@
                             android:padding="10dp">
 
                             <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
                                 android:padding="8dp"
-                                android:src="@drawable/ic_baseline_eco_24" />
+                                android:src="@drawable/icons8_farming_100"
+                                app:tint="@color/black" />
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:padding="8dp"
+                                android:textStyle="bold"
                                 android:text="Best Practices" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -401,6 +404,7 @@
                         android:layout_height="match_parent"/>
 
                     <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/farming_systems_card"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="8dp"
@@ -415,16 +419,18 @@
                             android:padding="10dp">
 
                             <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
                                 android:padding="8dp"
-                                android:src="@drawable/ic_baseline_eco_24" />
+                                android:src="@drawable/icons8_farming_sys100"
+                                app:tint="@color/black" />
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:padding="8dp"
-                                android:text="Best Practices" />
+                                android:textStyle="bold"
+                                android:text="Farming Systems" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
                     </com.google.android.material.card.MaterialCardView>

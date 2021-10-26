@@ -6,6 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".SplashActivity">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/background"
+        android:alpha="0.4"
+        android:scaleType="centerCrop"/>
+
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="wrap_content"
@@ -19,7 +26,8 @@
             android:layout_height="150dp"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_baseline_eco_24" />
+            android:src="@drawable/ic_baseline_eco_24"
+            app:tint="@color/white" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -33,6 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
+            android:textColor="@color/white"
             android:text="Your farming Solution" />
 
 
