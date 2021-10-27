@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import com.afrosoft.csadatacenter.InterestsActivity
 import com.afrosoft.csadatacenter.MainActivity
 import com.afrosoft.csadatacenter.databinding.ActivityLoginBinding
 import com.afrosoft.csadatacenter.models.UserResponse
@@ -51,8 +52,15 @@ class LoginActivity : AppCompatActivity() {
                                 if (nrf.status_code == 200){
                                     //action
                                     appPreferences.saveUser(nrf.user)
-                                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-                                    finish()
+                                    if (appPreferences.getFarmerInterests().isEmpty()){
+
+                                        startActivity(Intent(this@LoginActivity, InterestsActivity::class.java))
+                                        finish()
+                                    }else{
+                                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                                        finish()
+                                    }
+
                                 }
 
                                 Toast.makeText(this@LoginActivity, nrf.status_message, Toast.LENGTH_SHORT).show()
