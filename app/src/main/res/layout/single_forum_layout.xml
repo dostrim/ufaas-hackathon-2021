@@ -78,11 +78,6 @@
                 android:textSize="14sp"
                 android:paddingVertical="5dp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Translate"
-                android:padding="5dp"/>
 
             <View
                 android:layout_width="match_parent"

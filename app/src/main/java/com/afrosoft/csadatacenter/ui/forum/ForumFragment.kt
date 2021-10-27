@@ -1,5 +1,6 @@
 package com.afrosoft.csadatacenter.ui.forum
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -37,8 +38,14 @@ class ForumFragment : Fragment() {
             AppPreferences(requireActivity()).getFarmerInterests()
         ){}
 
-        adapter = ForumAdapter(requireActivity(), mutableListOf())
+        adapter = ForumAdapter(requireActivity(), mutableListOf()){
+            fetchForum()
+        }
         binding.forumRv.adapter = adapter
+
+        binding.btnAskCommunity.setOnClickListener {
+            startActivity(Intent(requireContext(),AskForumActivity::class.java))
+        }
 
         fetchForum()
     }

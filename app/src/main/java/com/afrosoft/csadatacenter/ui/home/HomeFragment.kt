@@ -2,6 +2,7 @@ package com.afrosoft.csadatacenter.ui.home
 
 import android.Manifest
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
@@ -16,10 +17,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import com.afrosoft.csadatacenter.InterestsActivity
 import com.afrosoft.csadatacenter.MainActivity
+import com.afrosoft.csadatacenter.R
 import com.afrosoft.csadatacenter.databinding.DialogPlantingDateBinding
 import com.afrosoft.csadatacenter.databinding.FragmentHomeBinding
+import com.afrosoft.csadatacenter.databinding.RowRecommendedServicesBinding
 import com.afrosoft.csadatacenter.models.*
 import com.afrosoft.csadatacenter.network.NetworkClient
 import com.afrosoft.csadatacenter.tasks.AddressIntentService
@@ -116,6 +120,12 @@ class HomeFragment : Fragment() {
         getCurrentLocation()
 
         setPlantInterestData(interest)
+
+        binding.rvRecommendedServices.adapter = ServicesAdapter(requireContext(), mutableListOf(
+            Services(1,"Soil Test", R.drawable.icon_soil_test,0.2f),
+            Services(2,"Fertilizers", R.drawable.icon_fertilizer,1f),
+            Services(3,"Hire Tractors", R.drawable.icon_tractor,0.2f)
+        ))
 
 
     }
@@ -435,4 +445,36 @@ class HomeFragment : Fragment() {
         }
     }
 
+}
+
+class Services(val id: Int, val name : String,val drawable :Int,val alpha : Float)
+
+class ServicesAdapter(val context: Context, var list: MutableList<Services>)
+    : RecyclerView.Adapter<ServicesAdapter.ServicesHolder>() {
+
+    inner class ServicesHolder(val binding : RowRecommendedServicesBinding)
+        : RecyclerView.ViewHolder(binding.root) {
+        fun displayViews(obj: Services) {
+
+            binding.name.text = obj.name
+            binding.bicture.setImageResource(obj.drawable)
+            binding.container.alpha = obj.alpha
+
+            binding.root.setOnClickListener {
+                if (obj.id==2){
+                    context.startActivity(Intent(context,BuyFarmInputsActivity::class.java))
+                }
+            }
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ServicesHolder {
+        return ServicesHolder(RowRecommendedServicesBinding.inflate(LayoutInflater.from(context),parent,false))
+    }
+
+    override fun onBindViewHolder(holder: ServicesHolder, position: Int) {
+        holder.displayViews(list[position])
+    }
+
+    override fun getItemCount(): Int = list.size
 }

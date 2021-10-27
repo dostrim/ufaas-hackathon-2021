@@ -22,10 +22,10 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="150dp"
                 android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:src="@drawable/home_backdrop"/>
+                android:scaleType="centerCrop"
+                android:src="@drawable/field_2"/>
 
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -271,10 +271,16 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="UGX 3500"
+                                    android:text="0-10"
                                     android:id="@+id/plant_age"
                                     android:textSize="18sp"
                                     android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Expected Harvest Date: \n1/June/2021 (9 months)"
+                                    android:textSize="18sp"/>
 
                             </LinearLayout>
 
@@ -441,6 +447,38 @@
                     </com.google.android.material.card.MaterialCardView>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="8dp">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:text="Recommended Services"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:id="@+id/rv_recommended_services"
+                                android:orientation="horizontal"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                tools:listitem="@layout/row_recommended_services"/>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </com.google.android.material.card.MaterialCardView>
+
+
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
