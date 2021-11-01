@@ -78,7 +78,7 @@ class ChatFragment : Fragment() {
 
     private fun getWorkers(type: String) {
 
-        AndroidNetworking.post("https://lyk.rkl.mybluehost.me/agro_aid/api/get_workers.php")
+        AndroidNetworking.post("http://lyk.rkl.mybluehost.me/agro_aid/api/get_workers.php")
             .addBodyParameter("type",type)
             .addBodyParameter("latitude","0.341421")
             .addBodyParameter("longitude","32.585129")

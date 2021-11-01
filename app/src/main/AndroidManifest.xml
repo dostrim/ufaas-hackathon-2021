@@ -51,6 +51,7 @@
         <activity
             android:name=".ui.access.LoginActivity"
             android:exported="true"
+            android:configChanges="orientation|screenSize"
             android:theme="@style/Theme.CSADataCenter.NoActionBar" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -102,6 +103,11 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
     </application>
 
 </manifest>

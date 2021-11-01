@@ -103,7 +103,7 @@ class InterestsActivity : AppCompatActivity() {
     
     
     private fun fetchInterests() {
-        AndroidNetworking.post("https://lyk.rkl.mybluehost.me/agro_aid/api/get_plants.php")
+        AndroidNetworking.post("http://lyk.rkl.mybluehost.me/agro_aid/api/get_plants.php")
                 .build()
                 .getAsString(object : StringRequestListener {
                     override fun onResponse(response: String?) {
@@ -160,7 +160,7 @@ class InterestAdapter(val context: Context, var list: MutableList<Interest>, val
     }
 
     private fun removeInterest(obj: Interest) {
-        AndroidNetworking.post("https://lyk.rkl.mybluehost.me/agro_aid/api/remove_farmers_plants.php")
+        AndroidNetworking.post("http://lyk.rkl.mybluehost.me/agro_aid/api/remove_farmers_plants.php")
                     .addBodyParameter("plant_id",obj.id)
                     .addBodyParameter("farmer_id",AppPreferences(context).getUser()?.id)
                     .build()
@@ -183,7 +183,7 @@ class InterestAdapter(val context: Context, var list: MutableList<Interest>, val
 
     private fun addInterest(obj: Interest) {
 
-        AndroidNetworking.post("https://lyk.rkl.mybluehost.me/agro_aid/api/save_farmers_plants.php")
+        AndroidNetworking.post("http://lyk.rkl.mybluehost.me/agro_aid/api/save_farmers_plants.php")
             .addBodyParameter("plant_id",obj.id)
             .addBodyParameter("farmer_id",AppPreferences(context).getUser()?.id)
             .build()

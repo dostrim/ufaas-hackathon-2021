@@ -50,7 +50,7 @@ class RegisterActivity : AppCompatActivity() {
             }
 
             spotDialog?.show()
-            AndroidNetworking.post("https://lyk.rkl.mybluehost.me/agro_aid/api/sign_up.php")
+            AndroidNetworking.post("http://lyk.rkl.mybluehost.me/agro_aid/api/sign_up.php")
                         .addBodyParameter("first_name",binding.firstName.text.toString())
                         .addBodyParameter("last_name",binding.lastName.text.toString())
                         .addBodyParameter("phone_number",binding.ccp.fullNumberWithPlus)

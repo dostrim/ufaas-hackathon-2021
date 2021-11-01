@@ -14,6 +14,7 @@ import com.afrosoft.csadatacenter.ui.AppPreferences
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.StringRequestListener
+import com.google.android.gms.security.ProviderInstaller
 import com.google.gson.Gson
 import dmax.dialog.SpotsDialog
 
@@ -28,6 +29,7 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        AndroidNetworking.initialize(this)
         spotDialog = SpotsDialog.Builder().setContext(this).build()
         appPreferences = AppPreferences(this)
 
@@ -40,9 +42,10 @@ class LoginActivity : AppCompatActivity() {
         binding.loginBtn.setOnClickListener {
 
             spotDialog?.show()
-            AndroidNetworking.post("https://lyk.rkl.mybluehost.me/agro_aid/api/sign_in.php")
+            AndroidNetworking.post("http://lyk.rkl.mybluehost.me/agro_aid/api/sign_in.php")
                         .addBodyParameter("phone_number",binding.ccp.fullNumberWithPlus)
                         .addBodyParameter("password",binding.password.text.toString())
+                .doNotCacheResponse()
                         .build()
                         .getAsString(object : StringRequestListener {
                             override fun onResponse(response: String?) {
@@ -72,6 +75,9 @@ class LoginActivity : AppCompatActivity() {
 
                                 Log.d(TAG, "onError: ${anError?.errorCode}")
                                 Log.d(TAG, "onError: ${anError?.errorBody}")
+                                Log.d(TAG, "onError: ${anError?.message}")
+                                Log.d(TAG, "onError: ${anError?.errorDetail}")
+                                Log.d(TAG, "onError: ${anError?.response}")
                                 Toast.makeText(this@LoginActivity, "No Internet", Toast.LENGTH_SHORT).show()
                             }
                         })

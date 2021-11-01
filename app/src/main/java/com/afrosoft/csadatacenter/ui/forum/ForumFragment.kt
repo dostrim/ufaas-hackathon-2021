@@ -52,7 +52,7 @@ class ForumFragment : Fragment() {
     
     
     private fun fetchForum() {
-        AndroidNetworking.post("https://lyk.rkl.mybluehost.me/agro_aid/api/get_forum.php")
+        AndroidNetworking.post("http://lyk.rkl.mybluehost.me/agro_aid/api/get_forum.php")
                 .build()
                 .getAsString(object : StringRequestListener {
                     override fun onResponse(response: String?) {

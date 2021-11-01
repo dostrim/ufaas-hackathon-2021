@@ -140,7 +140,7 @@ class HomeFragment : Fragment() {
     private fun getCloseMarketPrice() {
 
         binding.containerCropPrice.visibility = View.GONE
-        AndroidNetworking.post("https://lyk.rkl.mybluehost.me/agro_aid/api/get_market_prices.php")
+        AndroidNetworking.post("http://lyk.rkl.mybluehost.me/agro_aid/api/get_market_prices.php")
             .addBodyParameter("plant_id", interest?.id)
             .build()
             .getAsString(object : StringRequestListener {
@@ -167,7 +167,7 @@ class HomeFragment : Fragment() {
 
     private fun getHomeData() {
         binding.containerCropData.visibility = View.GONE
-        AndroidNetworking.post("https://lyk.rkl.mybluehost.me/agro_aid/api/get_home.php")
+        AndroidNetworking.post("http://lyk.rkl.mybluehost.me/agro_aid/api/get_home.php")
                     .addBodyParameter("farmer_id",AppPreferences(requireContext()).getUser()?.id)
                     .addBodyParameter("plant_id",interest?.id)
                     .build()
@@ -216,7 +216,7 @@ class HomeFragment : Fragment() {
 
         bindingD.submit.setOnClickListener {
             bindingD.submit.text = "Please wait..."
-            AndroidNetworking.post("https://lyk.rkl.mybluehost.me/agro_aid/api/update_farmers_plants_plantingdate.php")
+            AndroidNetworking.post("http://lyk.rkl.mybluehost.me/agro_aid/api/update_farmers_plants_plantingdate.php")
                 .addBodyParameter("planting_date", bindingD.plantingDate.text.toString())
                 .addBodyParameter("plant_id", interest?.id)
                 .addBodyParameter("farmer_id", AppPreferences(requireContext()).getUser()?.id)
