@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.afrosoft.csadatacenter.InterestsActivity
@@ -24,6 +25,8 @@ class RegisterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        AndroidNetworking.initialize(this)
 
         spotDialog = SpotsDialog.Builder().setContext(this).build()
 
@@ -56,6 +59,7 @@ class RegisterActivity : AppCompatActivity() {
                         .addBodyParameter("phone_number",binding.ccp.fullNumberWithPlus)
                         .addBodyParameter("password",binding.password.text.toString())
                         .addBodyParameter("gender",binding.genderSpinner.text.toString())
+                .doNotCacheResponse()
                         .build()
                         .getAsString(object : StringRequestListener {
                             override fun onResponse(response: String?) {
@@ -74,6 +78,11 @@ class RegisterActivity : AppCompatActivity() {
                             }
             
                             override fun onError(anError: ANError?) {
+                                Log.d("TAG-r", "onError: ${anError?.errorCode}")
+                                Log.d("TAG-r", "onError: ${anError?.errorBody}")
+                                Log.d("TAG-r", "onError: ${anError?.message}")
+                                Log.d("TAG-r", "onError: ${anError?.errorDetail}")
+                                Log.d("TAG-r", "onError: ${anError?.response}")
                                 spotDialog?.dismiss()
                                 Toast.makeText(this@RegisterActivity, "No Internet Connection", Toast.LENGTH_SHORT).show()
                             }

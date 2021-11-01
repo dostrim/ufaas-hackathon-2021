@@ -34,6 +34,8 @@ class MarketFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        AndroidNetworking.initialize(requireActivity())
+
         binding.interestsRv.adapter = FarmerInterestsAdapter(requireActivity(),  AppPreferences(requireActivity()).getFarmerInterests()){}
 
         adapter = MarketPriceAdapter(requireContext(), mutableListOf())
@@ -44,7 +46,7 @@ class MarketFragment : Fragment() {
 
     private fun getCloseMarketPrice() {
 
-        AndroidNetworking.post("https://lyk.rkl.mybluehost.me/agro_aid/api/get_market_prices.php")
+        AndroidNetworking.post("http://lyk.rkl.mybluehost.me/agro_aid/api/get_market_prices.php")
             .addBodyParameter("plant_id","6")
             .addBodyParameter("latitude","0.341421")
             .addBodyParameter("longitude","32.585129")
