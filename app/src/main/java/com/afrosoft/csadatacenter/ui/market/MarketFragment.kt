@@ -106,6 +106,8 @@ class MarketPriceAdapter(val context: Context, var list: MutableList<MarketPrice
         this.list = list
         notifyDataSetChanged()
     }
+
+    //backpressed
 }
 
 
